@@ -47,10 +47,13 @@ def main():
     print("\n🤖 Inizializzazione del modello RLM...")
     rlm = RLM(
         model="ollama/qwen3.5:cloud",
-        recursive_model="ollama/llama3:8b",
-        max_iterations=35,
+        recursive_model="ollama/qwen3.5:4b",
+        max_iterations=80,
+        max_depth=4,
         temperature=0.1
     )
+
+    rlm.repl.max_output_chars = 10_000
 
     # 4. Ciclo sequenziale sulle domande per generare le risposte
     risultati = []
