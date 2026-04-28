@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A: subset35, subset40, subset58</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --muted: #777777;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --border: #e5e5e5;
+            --header-bg: #1e293b;
+            --header-text: #ffffff;
+            --gt-bg: #f0fdf4;
+            --num-color: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0; padding: 24px;
+            background: var(--bg); color: var(--text);
+            line-height: 1.6;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { text-align: center; color: #1e293b; margin-bottom: 8px; font-size: 1.5em; }
+        .meta {
+            text-align: center; color: var(--muted); margin-bottom: 24px;
+            font-size: 0.9em;
+        }
+        .table-wrapper {
+            background: var(--card-bg); border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); overflow: hidden;
+        }
+        table {
+            width: 100%; border-collapse: collapse; font-size: 0.92em;
+            table-layout: fixed;
+        }
+        th, td {
+            padding: 14px 16px; border-bottom: 1px solid var(--border);
+            vertical-align: top; word-wrap: break-word;
+        }
+        th {
+            background: var(--header-bg); color: var(--header-text);
+            font-weight: 600; font-size: 0.85em; text-transform: uppercase;
+            letter-spacing: 0.4px; text-align: left; position: sticky; top: 0; z-index: 1;
+        }
+        th.col-num      { width: 3%;  text-align: center; }
+        th.col-question { width: 16%; }
+        th.col-gt       { width: 18%; background: #166534; }
+        th.col-gt-page  { width: 4%;  text-align: center; background: #166534; }
+        th.col-answer   { width: 34%; background: #0f3b5c; }
+        th.col-sources  { width: 16%; }
+        th.col-tokens   { width: 6%;  text-align: center; }
+
+        td.col-num { text-align: center; color: var(--num-color); font-weight: 600; }
+        td.col-gt { background: var(--gt-bg); font-size: 0.88em; }
+        td.col-gt-page { background: var(--gt-bg); text-align: center; font-weight: 600; }
+        td.col-answer { line-height: 1.7; }
+
+        tr:hover td { background: #fafbfc; }
+        tr:hover td.col-gt { background: #e6f7ec; }
+
+        a.citation {
+            color: var(--accent); text-decoration: none; font-weight: 600;
+            font-size: 0.85em; padding: 1px 4px; border-radius: 3px;
+            background: #eff6ff; white-space: nowrap;
+            transition: background 0.15s, color 0.15s;
+        }
+        a.citation:hover { background: #dbeafe; color: var(--accent-hover); }
+
+        a.source-link {
+            display: inline-block; color: var(--accent); text-decoration: none;
+            font-weight: 600; padding: 2px 6px; border-radius: 3px;
+            background: #eff6ff; margin: 2px 1px; font-size: 0.9em;
+            transition: background 0.15s;
+        }
+        a.source-link:hover { background: #dbeafe; }
+        .source-page { font-size: 0.8em; color: var(--muted); margin-left: 2px; }
+        .no-source { color: var(--muted); font-style: italic; }
+
+        td.col-tokens { text-align: center; }
+        .token-info {
+            display: inline-block; font-weight: 600; font-size: 0.85em;
+            color: #6366f1; background: #eef2ff; padding: 2px 8px;
+            border-radius: 4px; cursor: default;
+        }
+        .token-total {
+            color: #d97706; background: #fffbeb; font-size: 0.95em;
+        }
+        .totals-row td {
+            background: #f8fafc; border-top: 2px solid #94a3b8;
+        }
+
+        td.col-answer p { margin-bottom: 8px; }
+        td.col-answer ul, td.col-answer ol { margin: 6px 0 6px 20px; }
+        td.col-answer li { margin-bottom: 4px; }
+        td.col-answer code { background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-size: 0.9em; }
+        td.col-answer pre { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
+        td.col-answer strong { font-weight: 600; color: #1e293b; }
+
+        @media (max-width: 1024px) {
+            table { font-size: 0.82em; }
+            th, td { padding: 10px 8px; }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Q&A: subset35, subset40, subset58</h1>
+        <div class="meta">
+            Modello: deepseek-v4-flash:cloud
+             · 
+            14 domande · viewer con bbox gialla
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-num">#</th>
+                        <th class="col-question">Domanda</th>
+                        <th class="col-gt">Risposta Attesa</th>
+                        <th class="col-gt-page">Pag.</th>
+                        <th class="col-answer">Risposta Modello</th>
+                        <th class="col-sources">Fonti</th>
+                        <th class="col-tokens">Token</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td class="col-num">1</td>
+                <td class="col-question">Mi elenchi tutti i possibili stati STM?</td>
+                <td class="col-gt">No Power (NP
+Power On (PO)
+Configuration (CO)
+Data Entry (DE)
+Cold Standby (CS)
+Hot Standby (HS)
+Data Available (DA)
+Failure (FA)</td>
+                <td class="col-gt-page">SS-035 46-48</td>
+                <td class="col-answer">I possibili stati STM definiti nel documento sono:
+
+- **No Power (NP)** <a href="../processed_documents/subset35/viewer.html#238" title="Apri viewer con bbox gialla per ¶35-238" target="_blank" class="citation">[¶35-238]</a>
+- **Power On (PO)** <a href="../processed_documents/subset35/viewer.html#240" title="Apri viewer con bbox gialla per ¶35-240" target="_blank" class="citation">[¶35-240]</a>
+- **Configuration (CO)** <a href="../processed_documents/subset35/viewer.html#247" title="Apri viewer con bbox gialla per ¶35-247" target="_blank" class="citation">[¶35-247]</a>
+- **Data Entry (DE)** <a href="../processed_documents/subset35/viewer.html#262" title="Apri viewer con bbox gialla per ¶35-262" target="_blank" class="citation">[¶35-262]</a>
+- **Cold Standby (CS)** <a href="../processed_documents/subset35/viewer.html#268" title="Apri viewer con bbox gialla per ¶35-268" target="_blank" class="citation">[¶35-268]</a>
+- **Hot Standby (HS)** <a href="../processed_documents/subset35/viewer.html#271" title="Apri viewer con bbox gialla per ¶35-271" target="_blank" class="citation">[¶35-271]</a>
+- **Data Available (DA)** <a href="../processed_documents/subset35/viewer.html#280" title="Apri viewer con bbox gialla per ¶35-280" target="_blank" class="citation">[¶35-280]</a>
+- **Failure (FA)** <a href="../processed_documents/subset35/viewer.html#283" title="Apri viewer con bbox gialla per ¶35-283" target="_blank" class="citation">[¶35-283]</a>
+
+Fonti: ¶35-238, ¶35-240, ¶35-247, ¶35-262, ¶35-268, ¶35-271, ¶35-280, ¶35-283</td>
+                <td class="col-sources"><a href="../processed_documents/subset35/viewer.html#238" target="_blank" class="source-link" title="Apri viewer per ¶35-238">¶35-238</a><span class="source-page">(p. 46)</span> <a href="../processed_documents/subset35/viewer.html#240" target="_blank" class="source-link" title="Apri viewer per ¶35-240">¶35-240</a><span class="source-page">(p. 46)</span> <a href="../processed_documents/subset35/viewer.html#247" target="_blank" class="source-link" title="Apri viewer per ¶35-247">¶35-247</a><span class="source-page">(p. 46)</span> <a href="../processed_documents/subset35/viewer.html#262" target="_blank" class="source-link" title="Apri viewer per ¶35-262">¶35-262</a><span class="source-page">(p. 47)</span> <a href="../processed_documents/subset35/viewer.html#268" target="_blank" class="source-link" title="Apri viewer per ¶35-268">¶35-268</a><span class="source-page">(p. 47)</span> <a href="../processed_documents/subset35/viewer.html#271" target="_blank" class="source-link" title="Apri viewer per ¶35-271">¶35-271</a><span class="source-page">(p. 47)</span> <a href="../processed_documents/subset35/viewer.html#280" target="_blank" class="source-link" title="Apri viewer per ¶35-280">¶35-280</a><span class="source-page">(p. 48)</span> <a href="../processed_documents/subset35/viewer.html#283" target="_blank" class="source-link" title="Apri viewer per ¶35-283">¶35-283</a><span class="source-page">(p. 48)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148741 · completion: 320">149061</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">2</td>
+                <td class="col-question">Cosa succede nello Stato STM DE? Dammi una descrizone</td>
+                <td class="col-gt">The state DE is used by any STM that requires Specific NTC Data in order to have allthe required national information for operating the train with the STM</td>
+                <td class="col-gt-page">SS-035 47</td>
+                <td class="col-answer">Nello stato STM DE (Data Entry), lo STM esegue la procedura di inserimento dei dati nazionali specifici (Specific NTC Data) necessari per operare il treno con il sistema nazionale <a href="../processed_documents/subset58/viewer.html#263" title="Apri viewer con bbox gialla per ¶58-263" target="_blank" class="citation">[¶58-263]</a>. Questo stato viene attraversato una sola volta durante l'avvio dello STM <a href="../processed_documents/subset58/viewer.html#264" title="Apri viewer con bbox gialla per ¶58-264" target="_blank" class="citation">[¶58-264]</a>. Al termine della procedura (anche se saltata o abortita), lo STM richiede il passaggio allo stato Cold Standby (CS) <a href="../processed_documents/subset58/viewer.html#266" title="Apri viewer con bbox gialla per ¶58-266" target="_blank" class="citation">[¶58-266]</a><a href="../processed_documents/subset58/viewer.html#267" title="Apri viewer con bbox gialla per ¶58-267" target="_blank" class="citation">[¶58-267]</a>.
+
+Fonti: ¶58-263, ¶58-264, ¶58-265, ¶58-266, ¶58-267</td>
+                <td class="col-sources"><a href="../processed_documents/subset58/viewer.html#263" target="_blank" class="source-link" title="Apri viewer per ¶58-263">¶58-263</a><span class="source-page">(p. 76)</span> <a href="../processed_documents/subset58/viewer.html#264" target="_blank" class="source-link" title="Apri viewer per ¶58-264">¶58-264</a><span class="source-page">(p. 76)</span> <a href="../processed_documents/subset58/viewer.html#266" target="_blank" class="source-link" title="Apri viewer per ¶58-266">¶58-266</a><span class="source-page">(p. 77)</span> <a href="../processed_documents/subset58/viewer.html#267" target="_blank" class="source-link" title="Apri viewer per ¶58-267">¶58-267</a><span class="source-page">(p. 77)</span> <a href="../processed_documents/subset58/viewer.html#265" target="_blank" class="source-link" title="Apri viewer per ¶58-265">¶58-265</a><span class="source-page">(p. 76)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148746 · completion: 483">149229</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">3</td>
+                <td class="col-question">Qual è il massimo numero di caratteri che si possono mostrare a schermo sul DMI?</td>
+                <td class="col-gt">The maximum number of characters (coded in UTF-8 by 1 or 2 bytes) to display shall be
+a) 40 characters for text messages in text message request.
+b) 12 characters for button and indicator caption text in button and indicator requests</td>
+                <td class="col-gt-page">SS-035 85</td>
+                <td class="col-answer">Il massimo numero di caratteri visualizzabili sul DMI è di **40 caratteri per i messaggi di testo** e **12 caratteri per i testi dei pulsanti e indicatori** <a href="../processed_documents/subset35/viewer.html#761" title="Apri viewer con bbox gialla per ¶35-761" target="_blank" class="citation">[¶35-761]</a><a href="../processed_documents/subset35/viewer.html#762" title="Apri viewer con bbox gialla per ¶35-762" target="_blank" class="citation">[¶35-762]</a><a href="../processed_documents/subset35/viewer.html#763" title="Apri viewer con bbox gialla per ¶35-763" target="_blank" class="citation">[¶35-763]</a>.
+
+Fonti: ¶35-761, ¶35-762, ¶35-763</td>
+                <td class="col-sources"><a href="../processed_documents/subset35/viewer.html#761" target="_blank" class="source-link" title="Apri viewer per ¶35-761">¶35-761</a><span class="source-page">(p. 85)</span> <a href="../processed_documents/subset35/viewer.html#762" target="_blank" class="source-link" title="Apri viewer per ¶35-762">¶35-762</a><span class="source-page">(p. 85)</span> <a href="../processed_documents/subset35/viewer.html#763" target="_blank" class="source-link" title="Apri viewer per ¶35-763">¶35-763</a><span class="source-page">(p. 85)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148751 · completion: 219">148970</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">4</td>
+                <td class="col-question">Quali sono le condizioni per passare dallo stato STM DA a quello FA?</td>
+                <td class="col-gt">ETCS order “Failure”
+
+The STM decides itself to go in FA state</td>
+                <td class="col-gt-page">SS-035 49</td>
+                <td class="col-answer">Le condizioni per la transizione dallo stato STM DA (Data Available) a FA (Failure) sono definite nel documento SUBSET-035. La tabella delle transizioni di stato per lo STM (sezione 9.2.1.2) indica che le transizioni verso FA avvengono per le condizioni 16 e 17 <a href="../processed_documents/subset35/viewer.html#294" title="Apri viewer con bbox gialla per ¶35-294" target="_blank" class="citation">[¶35-294]</a>. La condizione 16 è "ETCS order 'Failure'" e la condizione 17 è "The STM decides itself to go in FA state" <a href="../processed_documents/subset35/viewer.html#295" title="Apri viewer con bbox gialla per ¶35-295" target="_blank" class="citation">[¶35-295]</a><a href="../processed_documents/subset35/viewer.html#296" title="Apri viewer con bbox gialla per ¶35-296" target="_blank" class="citation">[¶35-296]</a>.
+
+Nella tabella delle condizioni dello STM Control Function (sezione 10.3.2.4), le condizioni che portano a FA per un STM in qualsiasi stato, incluso DA, sono <a href="../processed_documents/subset35/viewer.html#347" title="Apri viewer con bbox gialla per ¶35-347" target="_blank" class="citation">[¶35-347]</a><a href="../processed_documents/subset35/viewer.html#349" title="Apri viewer con bbox gialla per ¶35-349" target="_blank" class="citation">[¶35-349]</a><a href="../processed_documents/subset35/viewer.html#351" title="Apri viewer con bbox gialla per ¶35-351" target="_blank" class="citation">[¶35-351]</a>:
+- **A16**: lo STM X richiede uno stato non consentito dalla tabella di transizione.
+- **B16**: lo STM X riporta uno stato in cui non dovrebbe trovarsi secondo la tabella.
+- **C16**: lo STM Control Function ha inviato un ordine di transizione (eccetto DA e CS condizionale) e lo STM X non riporta lo stato richiesto entro 10 secondi.
+- **D16**: lo STM Control Function ha inviato un ordine DA e lo STM X non riporta DA entro 5 secondi.
+- **E16**: lo STM Control Function ha inviato un ordine CS condizionale e lo STM X non riporta CS o non invia informazioni sul National Trip Procedure entro 10 secondi.
+- **F16**: lo STM Control Function ha inviato un ordine CS condizionale e, dopo aver già ricevuto informazioni sul National Trip Procedure, lo STM X non riporta CS o non invia tali informazioni entro 10 secondi.
+- **H16**: disconnessione finale tra lo STM Control Function e lo STM X.
+- **I16**: transizione ordinata verso Level NTC X ma lo STM X non è disponibile.
+- **L16**: lo STM X non ha ancora inviato lo Specific NTC Data Need e richiede lo stato CO.
+- **N16**: timeout TrainDataView_STM_Response_Timeout scaduto.
+- **O16**: timeout TrainDataEntry_STM_Response_Timeout scaduto.
+- **P16**: un'informazione di sicurezza non è stata trasmessa allo STM a causa di disconnessione.
+- **Q16**: il National Trip Procedure è attivo e lo STM X riporta nuovamente informazioni sul National Trip Procedure mentre l'ETCS è in modalità PT o UN.
+- **A17**: lo STM X riporta lo stato FA.
+
+Fonti: ¶35-294, ¶35-295, ¶35-296, ¶35-347, ¶35-349, ¶35-351</td>
+                <td class="col-sources"><a href="../processed_documents/subset35/viewer.html#294" target="_blank" class="source-link" title="Apri viewer per ¶35-294">¶35-294</a><span class="source-page">(p. 49)</span> <a href="../processed_documents/subset35/viewer.html#295" target="_blank" class="source-link" title="Apri viewer per ¶35-295">¶35-295</a><span class="source-page">(p. 49)</span> <a href="../processed_documents/subset35/viewer.html#296" target="_blank" class="source-link" title="Apri viewer per ¶35-296">¶35-296</a><span class="source-page">(p. 50)</span> <a href="../processed_documents/subset35/viewer.html#347" target="_blank" class="source-link" title="Apri viewer per ¶35-347">¶35-347</a><span class="source-page">(p. 54)</span> <a href="../processed_documents/subset35/viewer.html#349" target="_blank" class="source-link" title="Apri viewer per ¶35-349">¶35-349</a><span class="source-page">(p. 55)</span> <a href="../processed_documents/subset35/viewer.html#351" target="_blank" class="source-link" title="Apri viewer per ¶35-351">¶35-351</a><span class="source-page">(p. 56)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148747 · completion: 1501">150248</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">5</td>
+                <td class="col-question">Qual'è la distanza minima tra il fronte del rotabile e la posizione dell'antenna Eurobalise?</td>
+                <td class="col-gt">The antenna shall be placed such that the Reference Mark of the balise 
+antenna lies:
+• between 2m from the front of the engine and the 1st axle
+: The minimum value of 2m shall be ensured taking into
+account dynamic effects of the coupling</td>
+                <td class="col-gt-page">SS-040 20</td>
+                <td class="col-answer">La distanza minima tra il fronte del rotabile e l'antenna Eurobalise è di **2 metri** <a href="../processed_documents/subset40/viewer.html#83" title="Apri viewer con bbox gialla per ¶40-83" target="_blank" class="citation">[¶40-83]</a>.
+
+Fonti: ¶40-83</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#83" target="_blank" class="source-link" title="Apri viewer per ¶40-83">¶40-83</a><span class="source-page">(p. 16)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148754 · completion: 232">148986</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">6</td>
+                <td class="col-question">Cosa si intende come "last switchable balise"?</td>
+                <td class="col-gt">The «last switchable balise» of a balise group refers to the last encountered switchable balise with regards to the balise group crossing direction.</td>
+                <td class="col-gt-page">SS-040 12</td>
+                <td class="col-answer">La "last switchable balise" di un gruppo di balise è l'ultima balise commutabile incontrata rispetto alla direzione di attraversamento del gruppo <a href="../processed_documents/subset40/viewer.html#44" title="Apri viewer con bbox gialla per ¶40-44" target="_blank" class="citation">[¶40-44]</a>.</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#44" target="_blank" class="source-link" title="Apri viewer per ¶40-44">¶40-44</a><span class="source-page">(p. 6)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148742 · completion: 217">148959</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">7</td>
+                <td class="col-question">Come si misura la distanza tra due BG consecutivi?</td>
+                <td class="col-gt">Distance between balise groups is by definition the distance between closest balises of the two groups (i.e. between the Balise Reference Mark of the last one of the first group and the Balise Reference Mark of the first one of the second group).</td>
+                <td class="col-gt-page">SS-040 12</td>
+                <td class="col-answer">La distanza tra due balise group (BG) consecutivi si misura tra i **Balise Reference Mark** delle balise più vicine dei due gruppi: ovvero tra il riferimento dell'ultima balise del primo gruppo e il riferimento della prima balise del secondo gruppo <a href="../processed_documents/subset40/viewer.html#45" title="Apri viewer con bbox gialla per ¶40-45" target="_blank" class="citation">[¶40-45]</a>.
+
+Fonti: ¶40-45</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#45" target="_blank" class="source-link" title="Apri viewer per ¶40-45">¶40-45</a><span class="source-page">(p. 6)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148742 · completion: 303">149045</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">8</td>
+                <td class="col-question">Che differenza c'è tra la distanza tra due BG consecutivi e la distanza di linking?</td>
+                <td class="col-gt">Note: This convention should not be mixed up with the distance used in the linking information (i.e. between the Balise Reference Mark of the balise with N_PIG variable = 0 of the first group and the Balise Reference Mark of the balise with N_PIG variable = 0 of the second group); see following figure [...]</td>
+                <td class="col-gt-page">SS-040 12</td>
+                <td class="col-answer">Secondo il documento, la distanza tra due balise group (BG) consecutivi è definita come la distanza tra le balise più vicine dei due gruppi, ovvero tra il Balise Reference Mark dell'ultima balise del primo gruppo e il Balise Reference Mark della prima balise del secondo gruppo <a href="../processed_documents/subset40/viewer.html#45" title="Apri viewer con bbox gialla per ¶40-45" target="_blank" class="citation">[¶40-45]</a>.  
+
+La distanza di linking, invece, è misurata tra il Balise Reference Mark della balise con N_PIG = 0 del primo gruppo e il Balise Reference Mark della balise con N_PIG = 0 del secondo gruppo <a href="../processed_documents/subset40/viewer.html#46" title="Apri viewer con bbox gialla per ¶40-46" target="_blank" class="citation">[¶40-46]</a>.  
+
+Il documento specifica espressamente che queste due convenzioni non devono essere confuse <a href="../processed_documents/subset40/viewer.html#46" title="Apri viewer con bbox gialla per ¶40-46" target="_blank" class="citation">[¶40-46]</a>.  
+
+Fonti: ¶40-45, ¶40-46</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#45" target="_blank" class="source-link" title="Apri viewer per ¶40-45">¶40-45</a><span class="source-page">(p. 6)</span> <a href="../processed_documents/subset40/viewer.html#46" target="_blank" class="source-link" title="Apri viewer per ¶40-46">¶40-46</a><span class="source-page">(p. 6)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148752 · completion: 446">149198</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">9</td>
+                <td class="col-question">Quali sono le regole di installazione per le balsie?</td>
+                <td class="col-gt">SUBSET-036
+❑ Section 4.2.5: Cross-talk protection
+❑ Section 5.2 : Balise air gap interface
+❑ Section 5.6.2 : Installation requirements for balises
+❑ Section 5.6.3: Distance between balises
+❑ Section 5.7: Environmental Conditions</td>
+                <td class="col-gt-page">SS-040 12</td>
+                <td class="col-answer">Le regole di installazione per le balise sono definite nel documento SUBSET-040, sezione 4.1.1. Ecco le principali:
+
+- **Regole generali**: devono essere rispettate le specifiche di SUBSET-036 per protezione da cross-talk, interfaccia air gap, requisiti di installazione, distanza tra balise e condizioni ambientali <a href="../processed_documents/subset40/viewer.html#59" title="Apri viewer con bbox gialla per ¶40-59" target="_blank" class="citation">[¶40-59]</a>.
+- **Distanza massima tra balise consecutive nello stesso gruppo**: 12 m dal punto di riferimento al punto di riferimento <a href="../processed_documents/subset40/viewer.html#61" title="Apri viewer con bbox gialla per ¶40-61" target="_blank" class="citation">[¶40-61]</a>.
+- **Distanza massima tra una balise a segnale con informazioni commutate e il punto di arresto (livello 1)**: non più di 0,7 m a tergo del punto di arresto operativo <a href="../processed_documents/subset40/viewer.html#63" title="Apri viewer con bbox gialla per ¶40-63" target="_blank" class="citation">[¶40-63]</a>.
+- **Distanza minima tra il gruppo di balise e l'EOA (livello 1)**: almeno 1,3 m a tergo dell'EOA/LOA, con eccezioni per transizioni di livello annunciate <a href="../processed_documents/subset40/viewer.html#65" title="Apri viewer con bbox gialla per ¶40-65" target="_blank" class="citation">[¶40-65]</a>.
+- **Distanza minima tra l'ultima balise commutabile di un gruppo e il limite della sezione di rilevamento treno (livello 1)**: almeno 13,8 m a tergo del punto in cui il dispositivo di rilevamento della sezione successiva può iniziare a rilevare il treno <a href="../processed_documents/subset40/viewer.html#67" title="Apri viewer con bbox gialla per ¶40-67" target="_blank" class="citation">[¶40-67]</a>.
+- **Numero massimo di balise elaborabili per unità di tempo**: non più di 8 balise nella distanza percorsa in 0,8 secondi alla velocità massima di linea <a href="../processed_documents/subset40/viewer.html#69" title="Apri viewer con bbox gialla per ¶40-69" target="_blank" class="citation">[¶40-69]</a>.
+- **Tolleranze laterali e angolari per l'installazione**: si raccomanda un raggio minimo di curva superiore a 300 m; valori inferiori richiedono analisi dettagliata <a href="../processed_documents/subset40/viewer.html#71" title="Apri viewer con bbox gialla per ¶40-71" target="_blank" class="citation">[¶40-71]</a>.
+- **Configurazioni dei gruppi di balise**: devono essere rispettate le regole di SUBSET-091 per numero di balise per gruppo e gruppi TSR <a href="../processed_documents/subset40/viewer.html#73" title="Apri viewer con bbox gialla per ¶40-73" target="_blank" class="citation">[¶40-73]</a>.
+- **Installazione relativa alle posizioni in linea**: il riferimento della posizione di in-fill deve essere a tergo dell'EOA corrente <a href="../processed_documents/subset40/viewer.html#75" title="Apri viewer con bbox gialla per ¶40-75" target="_blank" class="citation">[¶40-75]</a>.
+- **Installazione relativa al profilo di missione**: devono essere rispettate le regole di SUBSET-091 per numero di gruppi non collegati e distanze massime <a href="../processed_documents/subset40/viewer.html#77" title="Apri viewer con bbox gialla per ¶40-77" target="_blank" class="citation">[¶40-77]</a>.
+
+Fonti: ¶40-59, ¶40-61, ¶40-63, ¶40-65, ¶40-67, ¶40-69, ¶40-71, ¶40-73, ¶40-75, ¶40-77</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#59" target="_blank" class="source-link" title="Apri viewer per ¶40-59">¶40-59</a><span class="source-page">(p. 8)</span> <a href="../processed_documents/subset40/viewer.html#61" target="_blank" class="source-link" title="Apri viewer per ¶40-61">¶40-61</a><span class="source-page">(p. 8)</span> <a href="../processed_documents/subset40/viewer.html#63" target="_blank" class="source-link" title="Apri viewer per ¶40-63">¶40-63</a><span class="source-page">(p. 9)</span> <a href="../processed_documents/subset40/viewer.html#65" target="_blank" class="source-link" title="Apri viewer per ¶40-65">¶40-65</a><span class="source-page">(p. 10)</span> <a href="../processed_documents/subset40/viewer.html#67" target="_blank" class="source-link" title="Apri viewer per ¶40-67">¶40-67</a><span class="source-page">(p. 11)</span> <a href="../processed_documents/subset40/viewer.html#69" target="_blank" class="source-link" title="Apri viewer per ¶40-69">¶40-69</a><span class="source-page">(p. 12)</span> <a href="../processed_documents/subset40/viewer.html#71" target="_blank" class="source-link" title="Apri viewer per ¶40-71">¶40-71</a><span class="source-page">(p. 13)</span> <a href="../processed_documents/subset40/viewer.html#73" target="_blank" class="source-link" title="Apri viewer per ¶40-73">¶40-73</a><span class="source-page">(p. 14)</span> <a href="../processed_documents/subset40/viewer.html#75" target="_blank" class="source-link" title="Apri viewer per ¶40-75">¶40-75</a><span class="source-page">(p. 14)</span> <a href="../processed_documents/subset40/viewer.html#77" target="_blank" class="source-link" title="Apri viewer per ¶40-77">¶40-77</a><span class="source-page">(p. 14)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148744 · completion: 1183">149927</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">10</td>
+                <td class="col-question">Qual è lo scopo di questo subset SS-058?</td>
+                <td class="col-gt">Lo scopo è specificare il formato dei dati usati nella comunicazione tra STM e ETCS onboard</td>
+                <td class="col-gt-page">SS-058 23</td>
+                <td class="col-answer">Il SUBSET-058 specifica i formati dei dati (Application Layer) utilizzati nella comunicazione tra lo Specific Transmission Module (STM) e l'ERTMS/ETCS di bordo <a href="../processed_documents/subset58/viewer.html#44" title="Apri viewer con bbox gialla per ¶58-44" target="_blank" class="citation">[¶58-44]</a>. Il suo scopo è limitato al solo Application Layer <a href="../processed_documents/subset58/viewer.html#47" title="Apri viewer con bbox gialla per ¶58-47" target="_blank" class="citation">[¶58-47]</a>, definendo variabili, pacchetti e messaggi per lo scambio di informazioni <a href="../processed_documents/subset58/viewer.html#55" title="Apri viewer con bbox gialla per ¶58-55" target="_blank" class="citation">[¶58-55]</a>.</td>
+                <td class="col-sources"><a href="../processed_documents/subset58/viewer.html#44" target="_blank" class="source-link" title="Apri viewer per ¶58-44">¶58-44</a><span class="source-page">(p. 23)</span> <a href="../processed_documents/subset58/viewer.html#47" target="_blank" class="source-link" title="Apri viewer per ¶58-47">¶58-47</a><span class="source-page">(p. 23)</span> <a href="../processed_documents/subset58/viewer.html#55" target="_blank" class="source-link" title="Apri viewer per ¶58-55">¶58-55</a><span class="source-page">(p. 26)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148741 · completion: 305">149046</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">11</td>
+                <td class="col-question">Il pacchetto STM-128 è consentito in quali stati STM?</td>
+                <td class="col-gt">Solo DA (Data Available)</td>
+                <td class="col-gt-page">SS-058 69</td>
+                <td class="col-answer">Il pacchetto STM-128 è consentito solo nello stato **DA** (Data Available) <a href="../processed_documents/subset58/viewer.html#223" title="Apri viewer con bbox gialla per ¶58-223" target="_blank" class="citation">[¶58-223]</a>.
+
+Fonti: ¶58-223</td>
+                <td class="col-sources"><a href="../processed_documents/subset58/viewer.html#223" target="_blank" class="source-link" title="Apri viewer per ¶58-223">¶58-223</a><span class="source-page">(p. 69)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148746 · completion: 149">148895</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">12</td>
+                <td class="col-question">Il pacchetto STM-128 è consentito nello stato STM CS (Cold Standby)?</td>
+                <td class="col-gt">No, solo DA (Data Available)</td>
+                <td class="col-gt-page">SS-058 69</td>
+                <td class="col-answer">No, il pacchetto STM-128 non è consentito nello stato STM CS (Cold Standby). Secondo la definizione del pacchetto, è consentito solo nello stato DA (Data Available) <a href="../processed_documents/subset58/viewer.html#223" title="Apri viewer con bbox gialla per ¶58-223" target="_blank" class="citation">[¶58-223]</a>.
+
+Fonti: ¶58-223</td>
+                <td class="col-sources"><a href="../processed_documents/subset58/viewer.html#223" target="_blank" class="source-link" title="Apri viewer per ¶58-223">¶58-223</a><span class="source-page">(p. 69)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148750 · completion: 169">148919</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">13</td>
+                <td class="col-question">Il pacchetto STM-23 a cosa serve?</td>
+                <td class="col-gt">Serve per notificare la fine e i risultati di una Test Procedure</td>
+                <td class="col-gt-page">SS-058 52</td>
+                <td class="col-answer">Il pacchetto STM-23 serve a segnalare la fine e il risultato di una procedura di test eseguita dall'STM. <a href="../processed_documents/subset58/viewer.html#180" title="Apri viewer con bbox gialla per ¶58-180" target="_blank" class="citation">[¶58-180]</a> <a href="../processed_documents/subset58/viewer.html#181" title="Apri viewer con bbox gialla per ¶58-181" target="_blank" class="citation">[¶58-181]</a>
+
+**Fonti:** ¶58-180, ¶58-181</td>
+                <td class="col-sources"><a href="../processed_documents/subset58/viewer.html#180" target="_blank" class="source-link" title="Apri viewer per ¶58-180">¶58-180</a><span class="source-page">(p. 52)</span> <a href="../processed_documents/subset58/viewer.html#181" target="_blank" class="source-link" title="Apri viewer per ¶58-181">¶58-181</a><span class="source-page">(p. 52)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148741 · completion: 259">149000</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">14</td>
+                <td class="col-question">La variabile V_TARGET cosa identifica?</td>
+                <td class="col-gt">Identifica la velocita target</td>
+                <td class="col-gt-page">SS-058 112</td>
+                <td class="col-answer">La variabile V_TARGET identifica la **velocità target** (Target speed) <a href="../processed_documents/subset58/viewer.html#468" title="Apri viewer con bbox gialla per ¶58-468" target="_blank" class="citation">[¶58-468]</a>.</td>
+                <td class="col-sources"><a href="../processed_documents/subset58/viewer.html#468" target="_blank" class="source-link" title="Apri viewer per ¶58-468">¶58-468</a><span class="source-page">(p. 112)</span></td>
+                <td class="col-tokens"><span class="token-info" title="prompt: 148739 · completion: 154">148893</span></td>
+            </tr>
+        
+                </tbody>
+                <tfoot>
+                    <tr class="totals-row">
+                        <td class="col-num"></td>
+                        <td class="col-question"></td>
+                        <td class="col-gt"></td>
+                        <td class="col-gt-page"></td>
+                        <td class="col-answer" style="text-align:right;font-weight:700;color:#1e293b;">
+                            TOTALE (14 domande)
+                        </td>
+                        <td class="col-sources"></td>
+                        <td class="col-tokens">
+                            <span class="token-info token-total" title="prompt: 2082436 · completion: 5940">
+                                2088376
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            marked.use({ breaks: true });
+            const answerCells = document.querySelectorAll('td.col-answer');
+            answerCells.forEach(cell => {
+                let html = cell.innerHTML;
+                const citations = [];
+                html = html.replace(/<a [^>]*class="citation[^"]*"[^>]*>.*?<\/a>/g, match => {
+                    citations.push(match);
+                    return '%%CITATION' + (citations.length - 1) + '%%';
+                });
+                let rendered = marked.parse(html);
+                citations.forEach((cit, idx) => {
+                    rendered = rendered.replace('%%CITATION' + idx + '%%', cit);
+                });
+                cell.innerHTML = rendered;
+            });
+        });
+    </script>
+</body>
+</html>

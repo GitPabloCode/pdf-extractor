@@ -92,7 +92,7 @@ DATE  : [¶6]
 | 4.    | Rules.................................................................................................................................8 |                                                                                                                          |
 | 4.1   | Installation rules................................................................................................................8     |                                                                                                                          |
 | 4.1.1 | Rules for balises............................................................................................................8          |                                                                                                                          |
-| 4.1.2 | Rules for Eurobalise antenna                                                                                                            | ......................................................................................15                                 |
+| 4.1.2 | Rules for Eurobalise antenna ......................................................................................15                   |                                                                                                                          |
 | 4.1.3 | Rules for Euroloops.....................................................................................................16              |                                                                                                                          |
 | 4.1.4 | Miscellaneous..............................................................................................................17           |                                                                                                                          |
 | 4.2   | Telegrams and messages...............................................................................................18                 |                                                                                                                          |
@@ -318,31 +318,17 @@ Additional rules, which are not defined in this document, may be needed, and may
 
 # 4.1.1.8 Lateral and angular tolerances for balise installation [¶70]
 
-# Rule [¶71]
+[immagine: ]
 
-# Reference [¶72]
-
-# Justification [¶73]
-
-It  is  recommended  that  the  minimum  curve  radius  in  zones  where Eurobalises can be placed is bigger than 300 m. [¶74]
-
-Lower values must be justified by a detailed analysis in relation to the lateral deviation of antenna (see Eurobalise FFFIS). [¶75]
-
-Properties and limitations of SUBSET-036 must be considered [¶76]
-
-- -Reference is to SUBSET-036  5.2.2.5;  5.6.2.3: «Lateral  and angular tolerances for balise installation» as this paragraph of the FFFS describes the way to place a balise on the trackside and this has direct influence on the way to locate the antenna on-board. [¶77]
-
-- -The reason for this rule is that differences in mounting antennae on-board generate different lateral deviations in curves, additionally  to  dynamic  deviations.  The  effects  of  these  lateral deviations depend on several factors: speed of the train, distance between the 2 bogies, location of the antenna... [¶78]
-
-- -This means that it must be ensured that Eurobalise transmission can be guaranteed in curves with lower radius. [¶79]
-
-- -This  does  not  mean  that  curves  with  a  very  low  radius  are forbidden on the network, but that if Eurobalise transmission can not be guaranteed, no Eurobalise shall be placed in such areas. [¶80]
+[¶71]
+| Rule          | It is recommended that the minimum curve radius in zones where Eurobalises can be placed is bigger than 300 m. Lower values must be justified by a detailed analysis in relation to the lateral deviation of antenna (see Eurobalise FFFIS).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Reference     | Properties and limitations of SUBSET-036 must be considered                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Justification | - Reference is to SUBSET-036 5.2.2.5; 5.6.2.3: «Lateral and angular tolerances for balise installation» as this paragraph of the FFFS describes the way to place a balise on the trackside and this has direct influence on the way to locate the antenna on-board. - The reason for this rule is that differences in mounting antennae on-board generate different lateral deviations in curves, additionally to dynamic deviations. The effects of these lateral deviations depend on several factors: speed of the train, distance between the 2 bogies, location of the antenna... - This means that it must be ensured that Eurobalise transmission can be guaranteed in curves with lower radius. - This does not mean that curves with a very low radius are forbidden on the network, but that if Eurobalise transmission can not be guaranteed, no Eurobalise shall be placed in such areas. |
 
 - 4.1.1.9 Intentionally deleted
 
 - 4.1.1.10 Intentionally deleted
-
-[immagine: ]
 
 
 ---
@@ -350,25 +336,25 @@ Properties and limitations of SUBSET-036 must be considered [¶76]
 
 [immagine: ]
 
-# 4.1.1.11 Balise group configurations [¶81]
+# 4.1.1.11 Balise group configurations [¶72]
 
-[¶82]
+[¶73]
 | Rule          | Reminder: the rules of the reference below must be respected regards - Number of balises in each group/use of single balise groups - TSR Balise groups   |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-091 - section 8.3.2.1                                                                                                                             |
 | Justification |                                                                                                                                                          |
 
-# 4.1.1.12 Balise installation relative to track locations [¶83]
+# 4.1.1.12 Balise installation relative to track locations [¶74]
 
-[¶84]
+[¶75]
 | Rule          | The in-fill location reference given by the in-fill device must be in rear of the current EOA.                 |
 |---------------|----------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - section 3.4.3.1; 3.8.4.6.2-4; 4.8.1.5                                                             |
 | Justification | An MA extension via an in-fill MA is only possible if there is no gap between the old MA and the MA extension. |
 
-# 4.1.1.13 Balise installation relative to mission profile [¶85]
+# 4.1.1.13 Balise installation relative to mission profile [¶76]
 
-[¶86]
+[¶77]
 | Rule          | Reminder: the rules of the reference below must be respected e.g. - Number of Unlinked Balise groups (marked as unlinked) - Maximum distances between Balise groups   |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-091 - chapter 10 Mission Profile                                                                                                                               |
@@ -380,21 +366,21 @@ Properties and limitations of SUBSET-036 must be considered [¶76]
 
 [immagine: ]
 
-# 4.1.2 Rules for Eurobalise antenna [¶87]
+# 4.1.2 Rules for Eurobalise antenna [¶78]
 
-# 4.1.2.1 General installation rules for antennas (former 4.1.2.3) [¶88]
+# 4.1.2.1 General installation rules for antennas (former 4.1.2.3) [¶79]
 
-[¶89]
+[¶80]
 | Rule          | Reminder: Installation rules presented in FFFIS for Eurobalise shall be respected.                                                                                                                                                                                              |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-036: /boxshadowdwn Section 5.2 : Balise air gap interface /boxshadowdwn Section 6.5 : Installation Requirements for Antennas /boxshadowdwn Section 6.6: Specific Environmental Conditions for Antennas /boxshadowdwn Section 6.7: Specific EMC Requirements for Antennas |
 | Justification |                                                                                                                                                                                                                                                                                 |
 
-# 4.1.2.2 Minimum / maximum distance between the front of the engine / 1st axle of the engine and the Eurobalise antenna [¶90]
+# 4.1.2.2 Minimum / maximum distance between the front of the engine / 1st axle of the engine and the Eurobalise antenna [¶81]
 
 [immagine: ]
 
-© This document has been developed and released by UNISIG [¶91]
+© This document has been developed and released by UNISIG [¶82]
 
 
 ---
@@ -404,21 +390,21 @@ Properties and limitations of SUBSET-036 must be considered [¶76]
 
 [immagine: ]
 
-[¶92]
+[¶83]
 | Reference     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Justification | The maximum value of 12.5m has been specified to allow the use of the same antenna for both directions, on a locomotive, and to provide sufficient space to install the antenna on all different types of trains. Furthermore the aim of the minimum distance of 2m to train front is : min 2m min 2 m - to avoid an antenna receiving a telegram from a balise energised by another antenna - to avoid a balise energised by one antenna perturbing the transmission of an adjacent antenna. |
 | Remark        | Interference with antennas of other systems, especially KER based, has to be considered as well.                                                                                                                                                                                                                                                                                                                                                                                              |
 
-# 4.1.2.3 Intentionally deleted (former 4.1.2.2) [¶93]
+# 4.1.2.3 Intentionally deleted (former 4.1.2.2) [¶84]
 
-# 4.1.3 Rules for Euroloops [¶94]
+# 4.1.3 Rules for Euroloops [¶85]
 
 # 4.1.3.1 Intentionally deleted
 
-# 4.1.3.2 General installation rules for Euroloops [¶95]
+# 4.1.3.2 General installation rules for Euroloops [¶86]
 
-[¶96]
+[¶87]
 | Rule          | Reminder: All installation rules given in FFFIS Euroloop have to be respected.                                                                                                                                                                                                                   |
 |---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-044 /boxshadowdwn Section 6.1.3: Arrangements /boxshadowdwn Section 6.10: Trackside Installation Rules /boxshadowdwn Section 6.11: Specific Electrical Requirements /boxshadowdwn Section 6.13: EMC Requirements /boxshadowdwn Section 7.8: Installation constraints for the Antenna Unit |
@@ -432,11 +418,11 @@ Properties and limitations of SUBSET-036 must be considered [¶76]
 
 [immagine: ]
 
-# 4.1.4 Miscellaneous [¶97]
+# 4.1.4 Miscellaneous [¶88]
 
-# 4.1.4.1 Level transitions borders and RBC/RBC handover borders [¶98]
+# 4.1.4.1 Level transitions borders and RBC/RBC handover borders [¶89]
 
-[¶99]
+[¶90]
 | Rule          | Level transition borders and RBC/RBC handover borders shall not be located where shunting or reversing could take place.                 |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 sections 3.15.4.6, 4.4.8.1.5                                                                                                  |
@@ -448,25 +434,25 @@ Properties and limitations of SUBSET-036 must be considered [¶76]
 
 [immagine: ]
 
-# 4.2 Telegrams and messages [¶100]
+# 4.2 Telegrams and messages [¶91]
 
-# 4.2.1 Balise telegrams [¶101]
+# 4.2.1 Balise telegrams [¶92]
 
-# 4.2.1.1 Length of balise telegrams (300 km/h, 500 km/h) [¶102]
+# 4.2.1.1 Length of balise telegrams (300 km/h, 500 km/h) [¶93]
 
-[¶103]
+[¶94]
 | Rule          | • 0 - 300 km/h: long telegram or short telegram for both standard size and reduced size balises • >300 - 500 km/h: long telegram or short telegram for standard size balises but only short telegram for reduced size balises The speed values above are nominal line speed values (engineered SSP). Tolerances due to inaccuracy of speed measurements and speed margins before brake intervention are not to be taken into account for engineering.   |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-036 section 5.2.2.3; for margins see SUBSET-026 A.3.1; for tolerances see SUBSET- 041 - 5.3.1.2                                                                                                                                                                                                                                                                                                                                                  |
 | Justification | The rules are required in order to guarantee interoperability from a transmission point of view.                                                                                                                                                                                                                                                                                                                                                        |
 
-# 4.2.2 Radio messages [¶104]
+# 4.2.2 Radio messages [¶95]
 
-Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the  same protocol is used in both cases) [¶105]
+Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the  same protocol is used in both cases) [¶96]
 
-- 4.2.2.1 Maximum length per message - to allow for the dimensioning of radio input buffers. [¶106]
+- 4.2.2.1 Maximum length per message - to allow for the dimensioning of radio input buffers. [¶97]
 
-[¶107]
+[¶98]
 | Rule          | Application data (excluding Euroradio protocol data) sent as normal priority data shall not exceed 500 bytes.                                              |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     |                                                                                                                                                            |
@@ -483,13 +469,13 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 # 4.2.3 Intentionally deleted
 
-# 4.2.4 Data engineering rules for individual data types [¶108]
+# 4.2.4 Data engineering rules for individual data types [¶99]
 
 # 4.2.4.1 Intentionally deleted
 
-# 4.2.4.2 Sharing of identifiers within different transmission systems [¶109]
+# 4.2.4.2 Sharing of identifiers within different transmission systems [¶100]
 
-[¶110]
+[¶101]
 | Rule          | Reminder: the rules of the reference below must be respected   |
 |---------------|----------------------------------------------------------------|
 | Reference     | SUBSET-026, section 3.18.4.4.1                                 |
@@ -499,46 +485,46 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 - 4.2.4.4 Intentionally deleted
 
-- 4.2.4.5 In-fill Information [¶111]
+- 4.2.4.5 In-fill Information [¶102]
 
-# 4.2.4.5.1 [¶112]
+# 4.2.4.5.1 [¶103]
 
-[¶113]
+[¶104]
 | Rule          | In-fill information which is repeated from the balise group at the next main signal by any in-fill device shall be limited to in-fill MA, linking and route related track description information. All information which does not relate to In-fill (e.g. information for opposite direction or EOLM etc.) shall not be given as in-fill information. Permitted in-fill information: - Packet 136 (in-fill location reference) - Packet 12, 80; 49 (MA, Mode Profile, List of Balises for SH area) - Packet 21 (Gradient Profile) - Packet 27, 51, 65/66, 70 (SSP, ASP, TSR, Route Suitability) - Packet 5 (Linking) - Packet 41 (Level transition) {see also next rule below) - Packet 44 (data used outside ERTMS) - Packet 39, 67, 68 (Track condition) - Packet 71 (adhesion factor) - Packet 133 (Radio in-fill area information)   |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - section 3.8.4.6.3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | Justification | This is to avoid any misinterpretation by on-board.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-© This document has been developed and released by UNISIG [¶114]
+© This document has been developed and released by UNISIG [¶105]
 
 
 ---
 <!-- pagina 20 -->
 
-# 4.2.4.5.2 [¶115]
+# 4.2.4.5.2 [¶106]
 
-[¶116]
+[¶107]
 | Rule          | If in-fill information contains an announcement of an immediate level transition at the location of the location reference for the in-fill information, for the distance D_LEVELTR the value of '0m' shall be used.   |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Justification | For in-fill only distance based information can be interpreted on-board                                                                                                                                               |
 
-# 4.2.4.6 Mode Profile [¶117]
+# 4.2.4.6 Mode Profile [¶108]
 
-# 4.2.4.6.1 [¶118]
+# 4.2.4.6.1 [¶109]
 
-[¶119]
+[¶110]
 | Rule          | The overlapping of mode profile areas in the mode profile packet shall be forbidden.   |
 |---------------|----------------------------------------------------------------------------------------|
 | Reference     |                                                                                        |
 | Justification | There is no possibility to handle two mode profiles at the same location.              |
 
-[¶120]
+[¶111]
 | Rule          | In case there is a Level 1 MA Packet with V_MAIN = 0, it is not allowed that the Message includes any mode profile packet.                                                                                                        |
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - 4.6.2 & 4.6.3 transition [32]                                                                                                                                                                                        |
 | Justification | On one hand it is obvious that a 'STOP' signal aspect shall not contain an Mode profile but on the other hand this rule is necessary to complete the transition table of the SRS (avoid a mode transition if Override is active). |
 
-# 4.2.4.6.2 [¶121]
+# 4.2.4.6.2 [¶112]
 
 [immagine: ]
 
@@ -548,45 +534,65 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# 4.2.4.7 Track conditions [¶122]
+# 4.2.4.7 Track conditions [¶113]
 
-# 4.2.4.7.1 [¶123]
+# 4.2.4.7.1 [¶114]
+
+# Rule [¶115]
+
+# Reference [¶116]
+
+# Justification [¶117]
+
+The minimum distance (latest transmission) between announcement of  track  condition  Powerless  Section  which  implies  lowering  the pantograph and the start location of this track condition shall correspond  to  17s  when  running  at  line  speed  (engineered  SSP)  in the approach area (B-C in the figure below). [¶118]
+
+The minimum distance (latest transmission) between announcement of track condition Powerless Section which does not require to lower the  pantograph  and  the  start  location  of  this  track  condition  shall correspond  to  11s  when  running  at  line  speed  (engineered  SSP)  in the approach area (B-C in the figure below). [¶119]
+
+The  'Distance  to  change  of  traction'  shall  refer  to  middle  of  the permanently earthed neutral contact line section. [¶120]
 
 [immagine: ]
 
-[¶124]
-| Rule          | The minimum distance (latest transmission) between announcement of track condition Powerless Section which implies lowering the pantograph and the start location of this track condition shall correspond to 17s when running at line speed (engineered SSP) in the approach area (B-C in the figure below). The minimum distance (latest transmission) between announcement of track condition Powerless Section which does not require to lower the pantograph and the start location of this track condition shall correspond to 11s when running at line speed (engineered SSP) in the approach area (B-C in the figure below). The 'Distance to change of traction' shall refer to middle of the permanently earthed neutral contact line section. E D powerless section Pantograph down running direction C LRBG Announcement distance D_TRACKCOND L_TRACKCOND B A D_TRACTION A: LRBG which is the location reference point for the distances given B: latest announcement location C: pantograph down / end of current traction D: location for track condition 'change of traction'   |
-|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Reference     | SUBSET-026 -section 3.7.1.1 c)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| Justification | This distance needs to be long enough to ensure that the driver (or an optional automatic system) is able to reduce traction power, open the main switch or lower the pantograph before reaching the beginning of the powerless section.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+- A: LRBG which is the location reference point for the distances given [¶121]
+
+- B: latest announcement location [¶122]
+
+- C: pantograph down / end of current traction [¶123]
+
+- D: location for track condition 'change of traction' [¶124]
+
+- E: pantograph up / begin of new traction [¶125]
+
+SUBSET-026 -section 3.7.1.1 c) [¶126]
+
+This distance needs to be long enough to ensure that the driver (or an optional automatic system) is able to reduce traction power, open the main switch or lower the pantograph before reaching the beginning of the powerless section. [¶127]
 
 
 ---
 <!-- pagina 22 -->
 
-# 4.2.4.7.2 [¶125]
+# 4.2.4.7.2 [¶128]
 
-[¶126]
+[¶129]
 | Rule          | The minimum distance (latest transmission) between announcement of track condition - Non stopping area - Air tightness - Switch off regenerative/eddy current/magnetic shoe brake and the start location of this track condition shall correspond to 10s when running at line speed (engineered SSP) in the approach area.   |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 -section 3.7.1.1 c)                                                                                                                                                                                                                                                                                               |
 | Justification | This distance needs to be long enough to ensure that the driver (or an optional automatic system) is able perform the related action before reaching the beginning of the track condition.                                                                                                                                   |
 
-# 4.2.4.8 Linking data handling [¶127]
+# 4.2.4.8 Linking data handling [¶130]
 
-# 4.2.4.8.1 [¶128]
+# 4.2.4.8.1 [¶131]
 
-# 4.2.4.8.2 [¶129]
+# 4.2.4.8.2 [¶132]
 
 [immagine: ]
 
-[¶130]
+[¶133]
 | Rule          | Balise groups with balise group qualifier 'unlinked' shall never be announced via linking.                                                               |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     |                                                                                                                                                          |
 | Justification | This is to avoid any contradiction between the consistency reaction regarding 'Unlinked' balise groups and the one regarding announced linking reaction. |
 
-[¶131]
+[¶134]
 | Rule          | Balise groups with balise group qualifier 'unlinked' shall never be used to transmit linking information unless it is sent as in-fill information (see 4.2.4.5 herein).                                                                                                                          |
 |---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - section 3.6.1.4                                                                                                                                                                                                                                                                     |
@@ -598,35 +604,35 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# 4.2.4.9 Level transition announcement [¶132]
+# 4.2.4.9 Level transition announcement [¶135]
 
-# 4.2.4.9.1 [¶133]
+# 4.2.4.9.1 [¶136]
 
-# 4.2.4.9.2 [¶134]
+# 4.2.4.9.2 [¶137]
 
-[¶135]
+[¶138]
 | Rule          | Trackside shall announce all applicable values of NID_STM containing the national system(s) installed in the infrastructure.                                         |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 sections 7.4.2.9; 7.5.1.98                                                                                                                                |
 | Justification | Certain STM functionalities might be grouped and so the trackside has to announce all relevant stand-alone STMs as well as STM groups according to the NID_STM list. |
 
-# 4.2.4.10 Text transmission [¶136]
+# 4.2.4.10 Text transmission [¶139]
 
-[¶137]
+[¶140]
 | Rule          | The use of the end condition 'location' shall be allowed only if the start condition 'location" is used.   |
 |---------------|------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - section 3.12.3.4; 7.4.2.23/24                                                                 |
 | Justification |                                                                                                            |
 
-# 4.2.4.11 Packet 131 (RBC Transition Order) [¶138]
+# 4.2.4.11 Packet 131 (RBC Transition Order) [¶141]
 
-[¶139]
+[¶142]
 | Rule          | It shall be forbidden to use the special value 'Contact the last known RBC' for the RBC ETCS identity number NID_RBC.                       |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - section 7.5.1.96                                                                                                               |
 | Justification | Using the special value 'Contact the last known RBC' would point to the Handing Over RBC which makes no sense in announcing an RBC Handover |
 
-[¶140]
+[¶143]
 | Rule          | Reminder: All 'Engineering requirements for Level transition' involving STM given in FFFIS STM have to be respected.   |
 |---------------|------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-035 section 7.5                                                                                                 |
@@ -638,32 +644,32 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# 4.2.4.12 NID_RADIO [¶141]
+# 4.2.4.12 NID_RADIO [¶144]
 
-[¶142]
+[¶145]
 | Rule          | For information regards the NID_RADIO refer to Subset 054   |
 |---------------|-------------------------------------------------------------|
 | Reference     |                                                             |
 | Justification |                                                             |
 
-# 4.3 Dimensioning rules for messages [¶143]
+# 4.3 Dimensioning rules for messages [¶146]
 
-# 4.3.1 Constraints [¶144]
+# 4.3.1 Constraints [¶147]
 
-- 4.3.1.1 The maximum number of iterations of the same type of information: [¶145]
+- 4.3.1.1 The maximum number of iterations of the same type of information: [¶148]
 
-[¶146]
+[¶149]
 | Rule          | In case the Engineering rules limit the number of iterations of a certain type of information, this shall take precedence over the 31 (= maximum of N_ITER) iterations stated in chapter 7 of the SRS.            |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - section 7.5.1.77                                                                                                                                                                                     |
 | Justification | In chapter 7 of the SRS, a nominal value range for N_ITER was chosen in order to rationalise the ETCS language. Where specific limits for N_ITER are required, they are stated in the Engineering Rules document. |
 | Remark        |                                                                                                                                                                                                                   |
 
-# 4.3.2 Data [¶147]
+# 4.3.2 Data [¶150]
 
-- 4.3.2.1 List of data that are related to dimensioning rules: [¶148]
+- 4.3.2.1 List of data that are related to dimensioning rules: [¶151]
 
-- 4.3.2.1.1 Note: The value for the 'Maximum number of iterations in 1 packet' in the rules below refers to the value of N_ITER in the related packets. [¶149]
+- 4.3.2.1.1 Note: The value for the 'Maximum number of iterations in 1 packet' in the rules below refers to the value of N_ITER in the related packets. [¶152]
 
 
 ---
@@ -671,9 +677,9 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# a) Number of MA sections (excluding the End Section) [¶150]
+# a) Number of MA sections (excluding the End Section) [¶153]
 
-[¶151]
+[¶154]
 |               | Maximum number of iterations in 1 packet                                | Minimum memorised on board                                                               |
 |---------------|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
 | Rule          | 5                                                                       | 6                                                                                        |
@@ -681,18 +687,18 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 | Justification |                                                                         | The use of in-fill information requires at least one additional section to be memorised. |
 | Remark        | In addition the MA includes an End Section which is not included in the | In addition the MA includes an End Section which is not included in the                  |
 
-# b) Number of balise IDs in balise list for SR authority or for shunting mode [¶152]
+# b) Number of balise IDs in balise list for SR authority or for shunting mode [¶155]
 
-[¶153]
+[¶156]
 |               | Maximum number of iterations in 1 packet                                           | Minimum memorised on board                                                          |
 |---------------|------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
 | Rule          | 15 being transmitted using the same packet                                         |                                                                                     |
 | Reference     |                                                                                    |                                                                                     |
 | Justification | This packet will never be combined with other packets requiring a big data volume. | No memorisation applicable as a new incoming balise list replaces the previous one. |
 
-# c)  Number of mode profile sections [¶154]
+# c)  Number of mode profile sections [¶157]
 
-[¶155]
+[¶158]
 |               | Maximum number of iterations in 1 packet               | Minimum memorised on board                                                 |
 |---------------|--------------------------------------------------------|----------------------------------------------------------------------------|
 | Rule          | 2                                                      |                                                                            |
@@ -705,27 +711,27 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# d) Number of locations with changes of SSP [¶156]
+# d) Number of locations with changes of SSP [¶159]
 
-[¶157]
+[¶160]
 |               |   Maximum number of iterations in 1 packet | Minimum memorised on board                                                                                  |
 |---------------|--------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | Rule          |                                         31 | 50                                                                                                          |
 | Reference     |                                            |                                                                                                             |
 | Justification |                                            | 50 SSP sections memorised on- board with a change of SSP section every 500m would cover a distance of 25km. |
 
-# e) Number of TSR [¶158]
+# e) Number of TSR [¶161]
 
-[¶159]
+[¶162]
 |               |   Maximum number of packets in 1 message |   Minimum memorised on board |
 |---------------|------------------------------------------|------------------------------|
 | Rule          |                                       10 |                           30 |
 | Reference     |                                          |                              |
 | Justification |                                          |                              |
 
-# f)  Number of changes of gradient [¶160]
+# f)  Number of changes of gradient [¶163]
 
-[¶161]
+[¶164]
 |               |   Maximum number of iterations in 1 packet | Minimum memorised on board                                                                            |
 |---------------|--------------------------------------------|-------------------------------------------------------------------------------------------------------|
 | Rule          |                                         31 | 50                                                                                                    |
@@ -738,9 +744,9 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# g) Number of locations for position reports [¶162]
+# g) Number of locations for position reports [¶165]
 
-[¶163]
+[¶166]
 |               |   Maximum number of iterations in 1 packet | Minimum memorised on board                                                                   |
 |---------------|--------------------------------------------|----------------------------------------------------------------------------------------------|
 | Rule          |                                         15 |                                                                                              |
@@ -748,9 +754,9 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 | Justification |                                            |                                                                                              |
 | Remark        |                                            | If a train gets a new packet 58 from the RBC, it replaces the old position report parameter. |
 
-# h) Number of text messages [¶164]
+# h) Number of text messages [¶167]
 
-[¶165]
+[¶168]
 |               | Maximum number of iterations in 1 packet   | Minimum memorised on board   |
 |---------------|--------------------------------------------|------------------------------|
 | Rule          | 1 plain text + 1 fixed text                | 5 plain text + 5 fixed text  |
@@ -763,18 +769,18 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# i)  Number of linked balise groups [¶166]
+# i)  Number of linked balise groups [¶169]
 
-[¶167]
+[¶170]
 |               | Maximum number of iterations in 1 packet                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Minimum memorised on board                                                                                   |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | Rule          | 29                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | 30                                                                                                           |
 | Reference     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |                                                                                                              |
 | Justification | 29 iterations allow for a maximum of 30 linked balise groups to be transmitted in one packet. Because according the changed procedure new linking information completely overwrites old information, the amount of linked balises to be stored is unchanged Exception: In case linking information is transmitted as in-fill information, Engineering must take care of any balises between the in- fill location and the in-fill reference location (i.e. the main signal balise group) which remain stored on- board | The on-board system should be able to manage an MA of 30 km with an average of 1 linked balise group per km. |
 
-# j)  Number of Track Conditions Change of traction power [¶168]
+# j)  Number of Track Conditions Change of traction power [¶171]
 
-[¶169]
+[¶172]
 |               | Maximum number of iterations in 1 packet   | Minimum memorised on board                                                   |
 |---------------|--------------------------------------------|------------------------------------------------------------------------------|
 | Rule          | No iteration in packet                     | 1                                                                            |
@@ -787,36 +793,36 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# k)  Number of Track Conditions Big Metal masses [¶170]
+# k)  Number of Track Conditions Big Metal masses [¶173]
 
-[¶171]
+[¶174]
 |               | Maximum number of iterations in 1 packet   |   Minimum memorised on board |
 |---------------|--------------------------------------------|------------------------------|
 | Rule          | 4                                          |                            5 |
 | Reference     | SUBSET-026 - section 7.4.2.19              |                              |
 | Justification |                                            |                              |
 
-# l)  Number of Track Conditions [¶172]
+# l)  Number of Track Conditions [¶175]
 
-[¶173]
+[¶176]
 |               | Maximum number of iterations in 1 packet   |   Minimum memorised on board |
 |---------------|--------------------------------------------|------------------------------|
 | Rule          | 19                                         |                           20 |
 | Reference     | SUBSET-026 - section 7.4.2.20              |                              |
 | Justification |                                            |                              |
 
-# m)  Number of Route suitability data [¶174]
+# m)  Number of Route suitability data [¶177]
 
-[¶175]
+[¶178]
 |               | Maximum number of iterations in 1 packet   | Minimum memorised on board                                                                  |
 |---------------|--------------------------------------------|---------------------------------------------------------------------------------------------|
 | Rule          | 2                                          | 3, however not more than one of each type (loading gauge, axle load, traction system type). |
 | Reference     | SUBSET-026 - section 7.4.2.21              |                                                                                             |
 | Justification |                                            |                                                                                             |
 
-# n) Number of train categories per segment of SSP [¶176]
+# n) Number of train categories per segment of SSP [¶179]
 
-[¶177]
+[¶180]
 |               | Maximum number of iterations per segment of SSP   | Minimum memorised on board   |
 |---------------|---------------------------------------------------|------------------------------|
 | Rule          | 15                                                |                              |
@@ -829,36 +835,36 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# o) Number of Axle load speed profile segments [¶178]
+# o) Number of Axle load speed profile segments [¶181]
 
-[¶179]
+[¶182]
 |               | Maximum number of iterations of ASP segments in 1 packet   |   Minimum memorised on board |
 |---------------|------------------------------------------------------------|------------------------------|
 | Rule          | 14                                                         |                           30 |
 | Reference     | SUBSET-026 - section 7.4.2.13                              |                              |
 | Justification |                                                            |                              |
 
-# p) Number of Axle load speed restriction values per ASP segment [¶180]
+# p) Number of Axle load speed restriction values per ASP segment [¶183]
 
-[¶181]
+[¶184]
 |               | Maximum number of iterations per ASP segment   | Minimum memorised on board   |
 |---------------|------------------------------------------------|------------------------------|
 | Rule          | 3                                              |                              |
 | Reference     | SUBSET-026 - section 7.4.2.13                  |                              |
 | Justification |                                                |                              |
 
-# q) Number of adhesion profiles [¶182]
+# q) Number of adhesion profiles [¶185]
 
-[¶183]
+[¶186]
 |               | Maximum number of iterations in 1 packet   |   Minimum memorised on board |
 |---------------|--------------------------------------------|------------------------------|
 | Rule          | No iteration in packet                     |                           10 |
 | Reference     | SUBSET-026 - section 7.4.2.22              |                              |
 | Justification |                                            |                              |
 
-# r)  Number of reversing area [¶184]
+# r)  Number of reversing area [¶187]
 
-[¶185]
+[¶188]
 |               | Maximum number of iterations in 1 packet   |   Minimum memorised on board |
 |---------------|--------------------------------------------|------------------------------|
 | Rule          | No iteration in packet                     |                            1 |
@@ -873,23 +879,23 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 # 4.3.3 Intentionally deleted
 
-# 4.3.4 Multiple instances of Packets [¶186]
+# 4.3.4 Multiple instances of Packets [¶189]
 
 # 4.3.4.1 Intentionally deleted
 
-- 4.3.4.2 Multiple instances of packets in messages [¶187]
+# 4.3.4.2 Multiple instances of packets in messages [¶190]
 
-[¶188]
+[¶191]
 | Rule          | Reminder: with regards to multiple instances of the same Packet inside a message, the rules of the references below must be respected.   |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-026 - section 8.4.1.4                                                                                                             |
 | Justification |                                                                                                                                          |
 
-# 4.3.5 Data flows [¶189]
+# 4.3.5 Data flows [¶192]
 
-# 4.3.5.1 Position reports [¶190]
+# 4.3.5.1 Position reports [¶193]
 
-[¶191]
+[¶194]
 | Rule          | The trackside shall not require position reports at a time cycle lower than 5 sec.   |
 |---------------|--------------------------------------------------------------------------------------|
 | Reference     |                                                                                      |
@@ -909,17 +915,17 @@ Note:  Radio  messages  means  RBC  messages  or  radio  in-fill  messages  (the
 
 [immagine: ]
 
-# 5. APPENDIX: RULES FOR KER COMPATIBILITY [¶192]
+# 5. APPENDIX: RULES FOR KER COMPATIBILITY [¶195]
 
-- 5.1.1.1 The  following  rules  are  not  requested  for  ERTMS/ETCS  interoperability.  They  are additional requirements to equipment offering KER compatibility. [¶193]
+- 5.1.1.1 The  following  rules  are  not  requested  for  ERTMS/ETCS  interoperability.  They  are additional requirements to equipment offering KER compatibility. [¶196]
 
-[¶194]
+[¶197]
 | Rule          | Reminder: the rules regarding KER compatibility of the reference below have to be respected                                                                                                                                     |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Reference     | SUBSET-100 /boxshadowdwn Section 4: Physical Interaction and Environment /boxshadowdwn Section 6 : RAMs /boxshadowdwn Annexes : Balise Type Specific Parameters SUBSET-101 /boxshadowdwn Section 4.1.5: Balise group separation |
 | Justification |                                                                                                                                                                                                                                 |
 
-- 5.1.1.2 [¶195]
+- 5.1.1.2 [¶198]
 
 Intentionally deleted
 

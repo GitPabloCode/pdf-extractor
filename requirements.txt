@@ -1,0 +1,12 @@
+pandas
+datapizza-ai
+datapizza-ai-clients-openai-like
+python-dotenv
+litellm
+RestrictedPython
+docling
+docling-core
+pillow
+fpdf2
+openpyxl
+requests

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report RLM - Esecuzione 3</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --primary: #c0392b;
+            --secondary: #e74c3c;
+            --terminal-bg: #1e1e1e;
+            --terminal-text: #d4d4d4;
+            --terminal-accent: #569cd6;
+            --terminal-iter: #c586c0;
+            --answer-bg: #fdedec;
+            --answer-border: #f5b7b1;
+            --answer-text: #78281f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+
+        /* Question Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-left: 6px solid var(--primary);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .question-title {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.7em;
+            padding: 4px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        details {
+            background-color: var(--terminal-bg);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+
+        summary {
+            color: var(--terminal-accent);
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            padding: 5px 0;
+        }
+
+        summary:hover {
+            color: #9cdcfe;
+        }
+
+        .iter-block {
+            margin-top: 15px;
+            padding-left: 15px;
+            border-left: 2px solid #4d4d4d;
+            margin-bottom: 15px;
+        }
+
+        .iter-title {
+            color: var(--terminal-iter);
+            font-family: 'Consolas', monospace;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85em;
+            color: var(--terminal-text);
+        }
+
+        .answer-box {
+            background-color: var(--answer-bg);
+            border: 1px solid var(--answer-border);
+            border-radius: 8px;
+            padding: 20px;
+            color: var(--answer-text);
+        }
+
+        .answer-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .answer-content {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📑 Report RLM: Esecuzione Mista</h1>
+        <p>Log di estrazione strutturata dal Subset 40</p>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <h2 class="question-title"><span class="badge">1 / 5</span> Qual'è la distanza minima tra il fronte del rotabile e la posizione dell'antenna Eurobalise?</h2>
+            
+            <details>
+                <summary>🔍 Esplora Log Iterazioni (10 passaggi)</summary>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 0 ---</div>
+                    <pre></pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 1 ---</div>
+                    <pre># Search for information about Eurobalise antenna and distance from rolling stock
+import re
+
+# Search for keywords related to the question
+keywords = ['eurobalise', 'antenna', 'distanza', 'rotabile', 'fronte', 'minima']
+
+# Find relevant sections
+matches = re.findall(r'.{0,50}(?:eurobalise|</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 2 ---</div>
+                    <pre># Search for information about Eurobalise antenna and distance from rolling stock
+# re is already imported in the environment
+
+# Find relevant sections
+matches = re.findall(r'.{0,50}(?:eurobalise|antenna|distanza|rotabile).{0,100}', context, re.IGNORECASE)
+print(f"Found {len(matches)} pote</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 3 ---</div>
+                    <pre># Search more specifically for the relationship between train front and antenna position
+# Look for Italian terms and specific distance requirements
+
+search_terms = ['distanza minima', 'fronte del rotabile', 'posizione antenna', 'antenna eurobalise', 'minima distanza']
+
+for term in search_</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 4 ---</div>
+                    <pre># Search more specifically for Italian text about minimum distance between train front and antenna
+# Look for the specific question terms in Italian
+
+search_patterns = [
+    r'distanza.{0,50}minima.{0,50}antenna',
+    r'antenna.{0,50}distanza.{0,50}minima',
+    r'fronte.{0,50}rotabile.{0,5'
+]</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 5 ---</div>
+                    <pre># Search more specifically for the 2m distance and its meaning
+# Look for all occurrences of "2m" or "2 m" near antenna references
+
+matches_2m = re.findall(r'.{0,80}2\s*m.{0,80}', context, re.IGNORECASE)
+print(f"=== All 2m references ({len(matches_2m)}) ===")
+for m in matches_2m[:15]:
+    </pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 6 ---</div>
+                    <pre># Search for more specific information about the 2m minimum distance
+# Look for section 4.1.2.2 which mentions minimum/maximum distance
+
+idx = context.find('4.1.2.2 Minimum / maximum distance')
+if idx != -1:
+    print("=== Section 4.1.2.2 ===")
+    print(context[idx:idx+800])
+    print()</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 7 ---</div>
+                    <pre># Get more complete context from section 4.1.2.2
+idx = context.find('4.1.2.2 Minimum / maximum distance')
+if idx != -1:
+    print("=== Full Section 4.1.2.2 ===")
+    print(context[idx:idx+1500])
+    print()
+
+# Search for the complete explanation of the 2m minimum distance
+search_2m_full = </pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 8 ---</div>
+                    <pre># Get more context around the 2m minimum distance to confirm
+idx = context.find('minimum distance of 2m to train front')
+if idx != -1:
+    print("=== Full context around 2m minimum ===")
+    print(context[idx-200:idx+400])
+    print()
+
+# Search for any Italian translations or sections
+ital</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 9 ---</div>
+                    <pre>Based on my search through the context, I found the answer in section 4.1.2.2 "Minimum / maximum distance between the front of the engine / 1st axle of the engine and the Eurobalise antenna".
+
+The context clearly states:
+- "the reference mark of the antenna is 2m in rear of the extremity of the engi</pre>
+                </div>
+            </details>
+
+            <div class="answer-box">
+                <div class="answer-title">✨ Risposta Generata</div>
+                <div class="answer-content">2 metri (2m)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <h2 class="question-title"><span class="badge">2 / 5</span> Cosa si intende come "last switchable balise"?</h2>
+            
+            <details>
+                <summary>🔍 Esplora Log Iterazioni (5 passaggi)</summary>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 0 ---</div>
+                    <pre># Search for "last switchable balise" in the context
+import re
+
+# Search for the exact term
+matches = re.findall(r'.{0,50}last switchable balise.{0,100}', context, re.IGNORECASE)
+print(f"Found {len(matches)} matches")
+for m in matches[:5]:
+    print(m)
+    print("---")</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 1 ---</div>
+                    <pre># Search for "last switchable balise" in the context
+# re is already imported, no need to import
+
+# Search for the exact term
+matches = re.findall(r'.{0,50}last switchable balise.{0,100}', context, re.IGNORECASE)
+print(f"Found {len(matches)} matches")
+for m in matches[:5]:
+    print(m)
+   </pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 2 ---</div>
+                    <pre># Get more context around the definition in section 3.3.1.4
+idx = context.find('3.3.1.4')
+print(context[idx:idx+500])
+print("---")
+# Also search for more complete definition
+matches2 = re.findall(r'.{0,100}last switchable balise.{0,200}', context, re.IGNORECASE)
+for m in matches2:
+    prin</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 3 ---</div>
+                    <pre># I found the definition in section 3.3.1.4
+# Let me extract it cleanly for the final answer
+
+definition = "The «last switchable balise» of a balise group refers to the last encountered switchable balise with regards to the balise group crossing direction."
+
+print("Definition found in sect</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 4 ---</div>
+                    <pre>FINAL("Secondo la sezione 3.3.1.4 del documento, la «last switchable balise» (ultima balise commutabile) di un gruppo di balise si riferisce all'ultima balise commutabile incontrata rispetto alla direzione di attraversamento del gruppo di balise.
+
+In altre parole, è l'ultima balise commutabile che i</pre>
+                </div>
+            </details>
+
+            <div class="answer-box">
+                <div class="answer-title">✨ Risposta Generata</div>
+                <div class="answer-content">Secondo la sezione 3.3.1.4 del documento, la «last switchable balise» (ultima balise commutabile) di un gruppo di balise si riferisce all'ultima balise commutabile incontrata rispetto alla direzione di attraversamento del gruppo di balise.
+
+In altre parole, è l'ultima balise commutabile che il treno incontra quando attraversa il gruppo di balise nella sua direzione di marcia.
+
+Il documento fornisce anche un contesto aggiuntivo nella sezione 4.1.1.5, indicando che questa ultima balise commutabile del gruppo deve essere posizionata ad almeno 13,8 m dietro il limite del dispositivo di rilevamento (12,5 m + 1,3 m di zona lobo laterale) per tenere conto della zona lobo laterale delle antenne e delle balise.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <h2 class="question-title"><span class="badge">3 / 5</span> Come si misura la distanza tra due BG consecutivi?</h2>
+            
+            <details>
+                <summary>🔍 Esplora Log Iterazioni (8 passaggi)</summary>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 0 ---</div>
+                    <pre># Search for BG references and distance measurement
+import re
+
+# First, let's find mentions of BG and distance
+bg_matches = re.findall(r'.{0,100}BG.{0,100}', context, re.IGNORECASE)
+print(f"Found {len(bg_matches)} mentions of BG")
+print("First 5 matches:")
+for m in bg_matches[:5]:
+    prin</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 1 ---</div>
+                    <pre># re is already imported, no need to import
+# Search for BG references and distance measurement
+bg_matches = re.findall(r'.{0,100}BG.{0,100}', context, re.IGNORECASE)
+print(f"Found {len(bg_matches)} mentions of BG")
+print("First 5 matches:")
+for m in bg_matches[:5]:
+    print(m)</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 2 ---</div>
+                    <pre># Search for distance-related information with BG/balise
+distance_matches = re.findall(r'.{0,150}distan.{0,150}', context, re.IGNORECASE)
+print(f"Found {len(distance_matches)} mentions of distance")
+print("First 10 matches:")
+for m in distance_matches[:10]:
+    print(m)
+    print("---")</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 3 ---</div>
+                    <pre># Search for the complete definition of distance between balise groups
+matches = re.findall(r'.{0,200}Distance between balise groups.{0,200}', context, re.IGNORECASE)
+print(f"Found {len(matches)} matches")
+for m in matches:
+    print(m)
+    print("---")</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 4 ---</div>
+                    <pre># Get more context around the distance definition
+idx = context.find('Distance between balise groups')
+print(context[idx:idx+500])</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 5 ---</div>
+                    <pre># Get a bit more context to ensure we have the complete definition
+idx = context.find('Distance between balise groups')
+print(context[idx:idx+600])</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 6 ---</div>
+                    <pre># I have found the complete answer in the context
+# The definition is clear from section 3.3.1.5
+
+answer = """La distanza tra due gruppi di balise (BG) consecutivi è definita come la distanza tra le balise più vicine dei due gruppi, ovvero:
+
+- Tra il Balise Reference Mark dell'ultima balis</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 7 ---</div>
+                    <pre>FINAL("La distanza tra due gruppi di balise (BG) consecutivi è definita come la distanza tra le balise più vicine dei due gruppi, ovvero tra il Balise Reference Mark dell'ultima balise del primo gruppo e il Balise Reference Mark della prima balise del secondo gruppo (sezione 3.3.1.5). Ques</pre>
+                </div>
+            </details>
+
+            <div class="answer-box">
+                <div class="answer-title">✨ Risposta Generata</div>
+                <div class="answer-content">La distanza tra due gruppi di balise (BG) consecutivi è definita come la distanza tra le balise più vicine dei due gruppi, ovvero tra il Balise Reference Mark dell'ultima balise del primo gruppo e il Balise Reference Mark della prima balise del secondo gruppo (sezione 3.3.1.5). Questa convenzione non deve essere confusa con la distanza utilizzata nelle informazioni di linking, che è invece tra le balise con N_PIG = 0 di ciascun gruppo.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <h2 class="question-title"><span class="badge">4 / 5</span> Che differenza c'è tra la distanza tra due BG consecutivi e la distanza di linking?</h2>
+            
+            <details>
+                <summary>🔍 Esplora Log Iterazioni (13 passaggi)</summary>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 0 ---</div>
+                    <pre># Search for terms related to BG and linking distance
+matches1 = re.findall(r'.{0,100}distanza.{0,100}BG.{0,100}', context, re.IGNORECASE)
+print("Matches for 'distanza' and 'BG':")
+for m in matches1[:5]:
+    print(m)
+print("---")
+
+# Search for linking distance
+matches2 = re.findall(r'.{0,1</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 1 ---</div>
+                    <pre># Search for BG mentions
+matches_bg = re.findall(r'.{0,150}BG.{0,150}', context, re.IGNORECASE)
+print("Matches for 'BG':")
+for m in matches_bg[:10]:
+    print(m)
+print("---")
+
+# Search for linking mentions
+matches_link = re.findall(r'.{0,150}linking.{0,150}', context, re.IGNORECASE)
+print(</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 2 ---</div>
+                    <pre># Search for the specific note about linking distance convention
+matches = re.findall(r'.{0,200}convention.{0,200}distance.{0,200}linking.{0,200}', context, re.IGNORECASE)
+print("Matches for convention distance linking:")
+for m in matches[:10]:
+    print(m)
+print("---")
+
+# Search for Balis</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 3 ---</div>
+                    <pre># Get more context around the linking distance note
+idx = context.find('This convention should not be mixed up with the distance used in the linking information')
+if idx != -1:
+    print("Context around linking distance note:")
+    print(context[idx-300:idx+500])
+print("---")
+
+# Search for</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 4 ---</div>
+                    <pre># Get more context to understand N_PIG variable
+matches = re.findall(r'.{0,300}N_PIG.{0,300}', context)
+print("More context for N_PIG:")
+for m in matches[:15]:
+    print(m)
+print("---")
+
+# Search for balise group structure
+matches2 = re.findall(r'.{0,300}first group.{0,300}second group.{0,</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 5 ---</div>
+                    <pre># Search for N_PIG definition or explanation
+matches = re.findall(r'.{0,300}N_PIG.{0,300}', context, re.IGNORECASE)
+print("All matches for N_PIG:")
+for m in matches:
+    print(m)
+print("---")
+
+# Search for balise numbering within group
+matches2 = re.findall(r'.{0,300}balise.{0,100}group.{0</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 6 ---</div>
+                    <pre># Search for more details about N_PIG = 0 meaning
+matches = re.findall(r'.{0,300}N_PIG.{0,100}0.{0,200}', context, re.IGNORECASE)
+print("Context for N_PIG = 0:")
+for m in matches[:10]:
+    print(m)
+print("---")
+
+# Search for balise group structure - how many balises per group
+matches2 = re</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 7 ---</div>
+                    <pre># Search for N_PIG definition more broadly
+matches = re.findall(r'.{0,400}N_PIG.{0,400}', context, re.IGNORECASE)
+print("All N_PIG context:")
+for m in matches:
+    print(m)
+print("---")
+
+# Search for PIG or balise numbering
+matches2 = re.findall(r'.{0,300}PIG.{0,300}', context, re.IGNORECA</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 8 ---</div>
+                    <pre># Search for more context about N_PIG = 0 meaning - which balise is it?
+matches = re.findall(r'.{0,400}outer balise.{0,400}', context, re.IGNORECASE)
+print("Context about outer balise:")
+for m in matches[:10]:
+    print(m)
+print("---")
+
+# Search for balise group composition
+matches2 = re.f</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 9 ---</div>
+                    <pre># Search for more clarity on which balise has N_PIG = 0 (first or last in group)
+matches = re.findall(r'.{0,400}N_PIG.{0,100}0.{0,200}first.{0,200}', context, re.IGNORECASE)
+print("N_PIG = 0 and first balise context:")
+for m in matches[:10]:
+    print(m)
+print("---")
+
+# Search for balise o</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 10 ---</div>
+                    <pre># Search for more clarity on outer balise and N_PIG = 0 position
+matches = re.findall(r'.{0,500}outer.{0,200}balise.{0,200}N_PIG.{0,200}', context, re.IGNORECASE)
+print("Outer balise and N_PIG context:")
+for m in matches[:10]:
+    print(m)
+print("---")
+
+# Search for first/last balise in gr</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 11 ---</div>
+                    <pre>Based on the context I've found in section 3.3.1.5 and related sections, I now have clear evidence to answer the question.
+
+```python
+# Extract the key definitions for the final answer
+idx = context.find('3.3.1.5 Distance between balise groups')
+section_text = context[idx:idx+1000]
+print("Key sectio</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 12 ---</div>
+                    <pre>Based on the evidence I found in the context, I can now provide a clear answer to the question.
+
+```python
+FINAL("La differenza tra le due distanze è la seguente:
+
+1. **Distanza tra due BG (Balise Group) consecutivi** (Sezione 3.3.1.5):
+   - È per definizione la distanza tra le balise più vicine dei</pre>
+                </div>
+            </details>
+
+            <div class="answer-box">
+                <div class="answer-title">✨ Risposta Generata</div>
+                <div class="answer-content">La differenza tra le due distanze è la seguente:
+
+1. **Distanza tra due BG (Balise Group) consecutivi** (Sezione 3.3.1.5):
+   - È per definizione la distanza tra le balise più vicine dei due gruppi
+   - Nello specifico: tra il Balise Reference Mark dell'ULTIMA balise del primo gruppo e il Balise Reference Mark della PRIMA balise del secondo gruppo
+
+2. **Distanza di linking** (Nota nella Sezione 3.3.1.5):
+   - È la distanza utilizzata nelle informazioni di linking
+   - Nello specifico: tra il Balise Reference Mark della balise con variabile N_PIG = 0 del primo gruppo e il Balise Reference Mark della balise con variabile N_PIG = 0 del secondo gruppo
+
+**Differenza chiave**: 
+- La distanza tra BG consecutivi misura lo spazio tra le balise più vicine (ultima del primo gruppo → prima del secondo gruppo)
+- La distanza di linking misura tra le balise di riferimento di ciascun gruppo (N_PIG = 0 di entrambi i gruppi)
+
+Secondo la Sezione 3.3.1.3, la balise con N_PIG = 0 è la 'outer balise' (balise esterna) che definisce la posizione di riferimento del gruppo. Quindi le due distanze possono differire perché misurano tra punti diversi all'interno della configurazione dei gruppi di balise.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <h2 class="question-title"><span class="badge">5 / 5</span> Quali sono le regole di installazione per le balise?</h2>
+            
+            <details>
+                <summary>🔍 Esplora Log Iterazioni (13 passaggi)</summary>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 0 ---</div>
+                    <pre># Search for information about "balise" and installation rules
+import re
+
+# First, let's see what the context is about
+print("Context preview (first 1000 chars):")
+print(context[:1000])</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 1 ---</div>
+                    <pre># Search for "balise" and installation rules in the context
+# re is already imported according to system prompt
+
+# First, let's find occurrences of "balise" in the context
+matches = re.findall(r'.{0,100}balise.{0,200}', context, re.IGNORECASE)
+print(f"Found {len(matches)} matches for 'bali</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 2 ---</div>
+                    <pre># Search for installation rules related to balise
+# Look for keywords related to installation
+
+install_matches = re.findall(r'.{0,150}(installazione|install|mounting|placement|position|posizionamento).{0,300}balise.{0,200}', context, re.IGNORECASE)
+print(f"Found {len(install_matches)} matc</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 3 ---</div>
+                    <pre># Search more specifically for installation rules for balises
+# Look for sections that mention both balise and installation requirements
+
+# Search for "balise" with installation context
+install_patterns = [
+    r'balise.{0,500}(installazione|installazione|montaggio|posizione|distanza|altez</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 4 ---</div>
+                    <pre># Found relevant section headers. Let me extract the content from the installation rules section
+# Section 4.1.1.1 seems to be the main one for general installation rules
+
+# Find the position of the general installation rules section
+idx = context.find("## 4.1.1.1 General installation rule</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 5 ---</div>
+                    <pre># Extract more content from the installation rules sections
+# Let me get sections 4.1.1.1 through 4.1.1.11 to see all installation rules
+
+idx = context.find("## 4.1.1.1 General installation rules for balises")
+if idx != -1:
+    # Find the next major section (## 4.1.2 or similar)
+    next_s</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 6 ---</div>
+                    <pre># Extract each installation rule subsection individually to get complete information
+sections = [
+    "## 4.1.1.1 General installation rules for balises",
+    "## 4.1.1.2 Maximum distance between balises within a group",
+    "## 4.1.1.4 Minimum distance between the balise group and the EOA</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 7 ---</div>
+                    <pre># Extract each installation rule section more carefully
+# Let me get the complete content of each subsection
+
+subsection_numbers = ["4.1.1.1", "4.1.1.2", "4.1.1.4", "4.1.1.6", "4.1.1.8", "4.1.1.9", "4.1.1.11"]
+
+for num in subsection_numbers:
+    search_term = f"## {num}"
+    idx = context.</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 8 ---</div>
+                    <pre># Extract each subsection individually with better boundaries
+# Let me get sections 4.1.1.4, 4.1.1.6, 4.1.1.8, 4.1.1.9, 4.1.1.11
+
+sections_to_extract = [
+    ("4.1.1.4", "Minimum distance between the balise group and the EOA/LOA"),
+    ("4.1.1.6", "Number of balises that can be processed p</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 9 ---</div>
+                    <pre># Continue extracting remaining sections
+sections_to_extract = [
+    ("4.1.1.6", "Number of balises that can be processed per unit of time"),
+    ("4.1.1.8", "Lateral and angular tolerances for balise installation"),
+    ("4.1.1.9", "Rules for balise installation in narrow curves"),
+    ("</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 10 ---</div>
+                    <pre># Get complete content from sections 4.1.1.9 and 4.1.1.11
+sections_to_extract = [
+    ("4.1.1.9", "Rules for balise installation in narrow curves"),
+    ("4.1.1.11", "Balise group configurations")
+]
+
+for num, title in sections_to_extract:
+    search_term = f"## {num}"
+    idx = context.fin</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 11 ---</div>
+                    <pre>Based on my search through the context, I have found comprehensive information about balise installation rules. Let me compile the answer:
+
+```python
+# Compile the final answer based on gathered information
+answer = """
+# Regole di Installazione per le Balise
+
+Secondo il documento analizzato (Sezion</pre>
+                </div>
+                <div class="iter-block">
+                    <div class="iter-title">--- iter 12 ---</div>
+                    <pre>FINAL("""
+# Regole di Installazione per le Balise
+
+Secondo il documento analizzato (Sezione 4.1.1), le regole di installazione per le balise sono:
+
+## 4.1.1.1 - Regole Generali di Installazione
+Le seguenti normative SUBSET-036 devono essere rispettate:
+- Sezione 4.2.5: Protezione cross-tal</pre>
+                </div>
+            </details>
+
+            <div class="answer-box">
+                <div class="answer-title">✨ Risposta Generata</div>
+                <div class="answer-content"># Regole di Installazione per le Balise
+
+Secondo il documento analizzato (Sezione 4.1.1), le regole di installazione per le balise sono:
+
+## 4.1.1.1 - Regole Generali di Installazione
+Le seguenti normative SUBSET-036 devono essere rispettate:
+- Sezione 4.2.5: Protezione cross-talk
+- Sezione 5.2: Interfaccia air gap della balise
+- Sezione 5.6.2: Requisiti di installazione per le balise
+- Sezione 5.6.3: Distanza tra le balise
+- Sezione 5.7: Condizioni ambientali
+
+## 4.1.1.2 - Distanza Massima tra Balise nello stesso Gruppo
+- La distanza massima tra due balise consecutive nello stesso gruppo deve essere di **12 metri** (da segno di riferimento a segno di riferimento)
+
+## 4.1.1.4 - Distanza Minima tra Gruppo di Balise e EOA/LOA
+- Distanza minima: **1,3 metri** + distanza percorsa dal treno durante il tempo Tn
+- Per velocità &lt; 80 km/h: Tn = 100 ms
+- Per Level 2/3 con ordine di transizione immediato: aggiungere 12,5m + distanza massima primo asse-estremità anteriore
+
+## 4.1.1.6 - Numero di Balise Processabili per Unità di Tempo
+- Nella distanza 'd' percorsa dal treno alla velocità massima della linea durante **0,8 secondi**, il numero di balise incontrate non deve superare **8 balise**
+
+## 4.1.1.8 - Tolleranze Laterali e Angolari
+- Fare riferimento a SUBSET-036 sezione 5.6.2.3
+
+## 4.1.1.9 - Installazione in Curve Strette
+- Fare riferimento a SUBSET-036 sezione 5.6.5 per installazione di Eurobalise in curve orizzontali o verticali
+
+## 4.1.1.11 - Configurazioni dei Gruppi di Balise
+- Fare riferimento a SUBSET-091 sezione 8.3.2.1 per:
+  - Numero di balise in ciascun gruppo
+  - Uso di gruppi di balise singole
+  - Gruppi di balise TSR</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

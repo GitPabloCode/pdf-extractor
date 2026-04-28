@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A: subset40</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --muted: #777777;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --border: #e5e5e5;
+            --header-bg: #1e293b;
+            --header-text: #ffffff;
+            --gt-bg: #f0fdf4;
+            --num-color: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0; padding: 24px;
+            background: var(--bg); color: var(--text);
+            line-height: 1.6;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { text-align: center; color: #1e293b; margin-bottom: 8px; font-size: 1.5em; }
+        .meta {
+            text-align: center; color: var(--muted); margin-bottom: 24px;
+            font-size: 0.9em;
+        }
+        .table-wrapper {
+            background: var(--card-bg); border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); overflow: hidden;
+        }
+        table {
+            width: 100%; border-collapse: collapse; font-size: 0.92em;
+            table-layout: fixed;
+        }
+        th, td {
+            padding: 14px 16px; border-bottom: 1px solid var(--border);
+            vertical-align: top; word-wrap: break-word;
+        }
+        th {
+            background: var(--header-bg); color: var(--header-text);
+            font-weight: 600; font-size: 0.85em; text-transform: uppercase;
+            letter-spacing: 0.4px; text-align: left; position: sticky; top: 0; z-index: 1;
+        }
+        th.col-num      { width: 3%;  text-align: center; }
+        th.col-question { width: 17%; }
+        th.col-gt       { width: 20%; background: #166534; }
+        th.col-gt-page  { width: 5%;  text-align: center; background: #166534; }
+        th.col-answer   { width: 38%; background: #0f3b5c; }
+        th.col-sources  { width: 17%; }
+
+        td.col-num { text-align: center; color: var(--num-color); font-weight: 600; }
+        td.col-gt { background: var(--gt-bg); font-size: 0.88em; }
+        td.col-gt-page { background: var(--gt-bg); text-align: center; font-weight: 600; }
+        td.col-answer { line-height: 1.7; }
+
+        tr:hover td { background: #fafbfc; }
+        tr:hover td.col-gt { background: #e6f7ec; }
+
+        a.citation {
+            color: var(--accent); text-decoration: none; font-weight: 600;
+            font-size: 0.85em; padding: 1px 4px; border-radius: 3px;
+            background: #eff6ff; white-space: nowrap;
+            transition: background 0.15s, color 0.15s;
+        }
+        a.citation:hover { background: #dbeafe; color: var(--accent-hover); }
+
+        a.source-link {
+            display: inline-block; color: var(--accent); text-decoration: none;
+            font-weight: 600; padding: 2px 6px; border-radius: 3px;
+            background: #eff6ff; margin: 2px 1px; font-size: 0.9em;
+            transition: background 0.15s;
+        }
+        a.source-link:hover { background: #dbeafe; }
+        .source-page { font-size: 0.8em; color: var(--muted); margin-left: 2px; }
+        .no-source { color: var(--muted); font-style: italic; }
+
+        td.col-answer p { margin-bottom: 8px; }
+        td.col-answer ul, td.col-answer ol { margin: 6px 0 6px 20px; }
+        td.col-answer li { margin-bottom: 4px; }
+        td.col-answer code { background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-size: 0.9em; }
+        td.col-answer pre { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
+        td.col-answer strong { font-weight: 600; color: #1e293b; }
+
+        @media (max-width: 1024px) {
+            table { font-size: 0.82em; }
+            th, td { padding: 10px 8px; }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Q&A: subset40</h1>
+        <div class="meta">
+            Modello: deepseek-v4-flash:cloud
+             · 
+            5 domande · viewer con bbox gialla
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-num">#</th>
+                        <th class="col-question">Domanda</th>
+                        <th class="col-gt">Risposta Attesa</th>
+                        <th class="col-gt-page">Pag.</th>
+                        <th class="col-answer">Risposta Modello</th>
+                        <th class="col-sources">Fonti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td class="col-num">1</td>
+                <td class="col-question">Qual'è la distanza minima tra il fronte del rotabile e la posizione dell'antenna Eurobalise?</td>
+                <td class="col-gt">The antenna shall be placed such that the Reference Mark of the balise 
+antenna lies:
+• between 2m from the front of the engine and the 1st axle
+: The minimum value of 2m shall be ensured taking into
+account dynamic effects of the coupling</td>
+                <td class="col-gt-page">20</td>
+                <td class="col-answer">La distanza minima tra il fronte del rotabile e l'antenna Eurobalise è di **2 metri** <a href="../processed_documents/subset40/viewer.html#83" title="Apri viewer con bbox gialla per ¶83" target="_blank" class="citation">[¶83]</a>.</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#83" target="_blank" class="source-link" title="Apri viewer per ¶83">¶83</a><span class="source-page">(p. 16)</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">2</td>
+                <td class="col-question">Cosa si intende come "last switchable balise"?</td>
+                <td class="col-gt">The «last switchable balise» of a balise group refers to the last encountered switchable balise with regards to the balise group crossing direction.</td>
+                <td class="col-gt-page">12</td>
+                <td class="col-answer">La "last switchable balise" di un gruppo di balise è l'ultimo balise commutabile incontrato rispetto alla direzione di attraversamento del gruppo <a href="../processed_documents/subset40/viewer.html#44" title="Apri viewer con bbox gialla per ¶44" target="_blank" class="citation">[¶44]</a>.
+
+Fonti: ¶44</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#44" target="_blank" class="source-link" title="Apri viewer per ¶44">¶44</a><span class="source-page">(p. 6)</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">3</td>
+                <td class="col-question">Come si misura la distanza tra due BG consecutivi?</td>
+                <td class="col-gt">Distance between balise groups is by definition the distance between closest balises of the two groups (i.e. between the Balise Reference Mark of the last one of the first group and the Balise Reference Mark of the first one of the second group).</td>
+                <td class="col-gt-page">12</td>
+                <td class="col-answer">La distanza tra due balise group (BG) consecutivi è definita come la distanza tra le balise più vicine dei due gruppi, ovvero tra il Balise Reference Mark dell'ultima balise del primo gruppo e il Balise Reference Mark della prima balise del secondo gruppo <a href="../processed_documents/subset40/viewer.html#45" title="Apri viewer con bbox gialla per ¶45" target="_blank" class="citation">[¶45]</a>.</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#45" target="_blank" class="source-link" title="Apri viewer per ¶45">¶45</a><span class="source-page">(p. 6)</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">4</td>
+                <td class="col-question">Che differenza c'è tra la distanza tra due BG consecutivi e la distanza di linking?</td>
+                <td class="col-gt">Note: This convention should not be mixed up with the distance used in the linking information (i.e. between the Balise Reference Mark of the balise with N_PIG variable = 0 of the first group and the Balise Reference Mark of the balise with N_PIG variable = 0 of the second group); see following figure [...]</td>
+                <td class="col-gt-page">12</td>
+                <td class="col-answer">La differenza è nella definizione dei punti di riferimento utilizzati:
+
+- **Distanza tra due balise group (BG) consecutivi**: è la distanza tra le balise più vicine dei due gruppi, ovvero tra il Balise Reference Mark dell'ultima balise del primo gruppo e il Balise Reference Mark della prima balise del secondo gruppo <a href="../processed_documents/subset40/viewer.html#45" title="Apri viewer con bbox gialla per ¶45" target="_blank" class="citation">[¶45]</a>.
+
+- **Distanza di linking**: è la distanza utilizzata nelle informazioni di linking, e si misura tra il Balise Reference Mark della balise con N_PIG = 0 del primo gruppo e il Balise Reference Mark della balise con N_PIG = 0 del secondo gruppo <a href="../processed_documents/subset40/viewer.html#46" title="Apri viewer con bbox gialla per ¶46" target="_blank" class="citation">[¶46]</a>.
+
+In sintesi, la distanza tra BG consecutivi considera le balise più vicine tra i due gruppi, mentre la distanza di linking considera le balise di riferimento (N_PIG=0) di ciascun gruppo.
+
+Fonti: ¶45, ¶46</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#45" target="_blank" class="source-link" title="Apri viewer per ¶45">¶45</a><span class="source-page">(p. 6)</span> <a href="../processed_documents/subset40/viewer.html#46" target="_blank" class="source-link" title="Apri viewer per ¶46">¶46</a><span class="source-page">(p. 6)</span></td>
+            </tr>
+        
+            <tr>
+                <td class="col-num">5</td>
+                <td class="col-question">Quali sono le regole di installazione per le balise?</td>
+                <td class="col-gt">SUBSET-036
+❑ Section 4.2.5: Cross-talk protection
+❑ Section 5.2 : Balise air gap interface
+❑ Section 5.6.2 : Installation requirements for balises
+❑ Section 5.6.3: Distance between balises
+❑ Section 5.7: Environmental Conditions</td>
+                <td class="col-gt-page">12</td>
+                <td class="col-answer">Le regole di installazione per le balise sono definite nella sezione 4.1.1 del documento e includono:
+
+- **4.1.1.1 – Regole generali**: devono essere rispettati i requisiti di SUBSET-036 per protezione cross-talk, interfaccia air gap, distanze tra balise e condizioni ambientali <a href="../processed_documents/subset40/viewer.html#59" title="Apri viewer con bbox gialla per ¶59" target="_blank" class="citation">[¶59]</a>.
+- **4.1.1.2 – Distanza massima tra balise nello stesso gruppo**: non superiore a 12 m da reference mark a reference mark <a href="../processed_documents/subset40/viewer.html#61" title="Apri viewer con bbox gialla per ¶61" target="_blank" class="citation">[¶61]</a>.
+- **4.1.1.3 – Distanza massima tra balise a un segnale con informazioni commutate e il punto di arresto (livello 1)**: la balise non deve essere posizionata oltre 0,7 m a valle del punto di arresto operativo <a href="../processed_documents/subset40/viewer.html#63" title="Apri viewer con bbox gialla per ¶63" target="_blank" class="citation">[¶63]</a>.
+- **4.1.1.4 – Distanza minima tra il gruppo di balise e l'EOA (livello 1)**: l'ultima balise del gruppo che fornisce un MA o un ordine di transizione di livello deve essere ad almeno 1,3 m a monte dell'EOA/LOA, salvo eccezioni per transizioni annunciate <a href="../processed_documents/subset40/viewer.html#65" title="Apri viewer con bbox gialla per ¶65" target="_blank" class="citation">[¶65]</a>.
+- **4.1.1.5 – Distanza minima tra l'ultima balise commutabile di un gruppo e il limite della sezione di rilevamento treno (livello 1)**: almeno 13,8 m a monte del punto in cui il dispositivo di rilevamento della sezione successiva può iniziare a rilevare il treno <a href="../processed_documents/subset40/viewer.html#67" title="Apri viewer con bbox gialla per ¶67" target="_blank" class="citation">[¶67]</a>.
+- **4.1.1.6 – Numero massimo di balise elaborabili per unità di tempo**: nella distanza percorsa in 0,8 s alla velocità massima di linea, non devono essere incontrate più di 8 balise <a href="../processed_documents/subset40/viewer.html#69" title="Apri viewer con bbox gialla per ¶69" target="_blank" class="citation">[¶69]</a>.
+- **4.1.1.8 – Tolleranze laterali e angolari per l'installazione**: si raccomanda un raggio minimo di curva superiore a 300 m; valori inferiori richiedono un'analisi dettagliata <a href="../processed_documents/subset40/viewer.html#71" title="Apri viewer con bbox gialla per ¶71" target="_blank" class="citation">[¶71]</a>.
+- **4.1.1.11 – Configurazioni dei gruppi di balise**: devono essere rispettate le regole di SUBSET-091 per numero di balise per gruppo e gruppi TSR <a href="../processed_documents/subset40/viewer.html#73" title="Apri viewer con bbox gialla per ¶73" target="_blank" class="citation">[¶73]</a>.
+- **4.1.1.12 – Installazione rispetto alle posizioni in linea**: il riferimento di posizione dell'in-fill deve essere a monte dell'EOA corrente <a href="../processed_documents/subset40/viewer.html#75" title="Apri viewer con bbox gialla per ¶75" target="_blank" class="citation">[¶75]</a>.
+- **4.1.1.13 – Installazione rispetto al profilo di missione**: devono essere rispettate le regole di SUBSET-091 per gruppi di balise non collegati e distanze massime <a href="../processed_documents/subset40/viewer.html#77" title="Apri viewer con bbox gialla per ¶77" target="_blank" class="citation">[¶77]</a>.
+
+Fonti: ¶59, ¶61, ¶63, ¶65, ¶67, ¶69, ¶71, ¶73, ¶75, ¶77</td>
+                <td class="col-sources"><a href="../processed_documents/subset40/viewer.html#59" target="_blank" class="source-link" title="Apri viewer per ¶59">¶59</a><span class="source-page">(p. 8)</span> <a href="../processed_documents/subset40/viewer.html#61" target="_blank" class="source-link" title="Apri viewer per ¶61">¶61</a><span class="source-page">(p. 8)</span> <a href="../processed_documents/subset40/viewer.html#63" target="_blank" class="source-link" title="Apri viewer per ¶63">¶63</a><span class="source-page">(p. 9)</span> <a href="../processed_documents/subset40/viewer.html#65" target="_blank" class="source-link" title="Apri viewer per ¶65">¶65</a><span class="source-page">(p. 10)</span> <a href="../processed_documents/subset40/viewer.html#67" target="_blank" class="source-link" title="Apri viewer per ¶67">¶67</a><span class="source-page">(p. 11)</span> <a href="../processed_documents/subset40/viewer.html#69" target="_blank" class="source-link" title="Apri viewer per ¶69">¶69</a><span class="source-page">(p. 12)</span> <a href="../processed_documents/subset40/viewer.html#71" target="_blank" class="source-link" title="Apri viewer per ¶71">¶71</a><span class="source-page">(p. 13)</span> <a href="../processed_documents/subset40/viewer.html#73" target="_blank" class="source-link" title="Apri viewer per ¶73">¶73</a><span class="source-page">(p. 14)</span> <a href="../processed_documents/subset40/viewer.html#75" target="_blank" class="source-link" title="Apri viewer per ¶75">¶75</a><span class="source-page">(p. 14)</span> <a href="../processed_documents/subset40/viewer.html#77" target="_blank" class="source-link" title="Apri viewer per ¶77">¶77</a><span class="source-page">(p. 14)</span></td>
+            </tr>
+        
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            marked.use({ breaks: true });
+            const answerCells = document.querySelectorAll('td.col-answer');
+            answerCells.forEach(cell => {
+                let html = cell.innerHTML;
+                const citations = [];
+                html = html.replace(/<a [^>]*class="citation[^"]*"[^>]*>.*?<\/a>/g, match => {
+                    citations.push(match);
+                    return '%%CITATION' + (citations.length - 1) + '%%';
+                });
+                let rendered = marked.parse(html);
+                citations.forEach((cit, idx) => {
+                    rendered = rendered.replace('%%CITATION' + idx + '%%', cit);
+                });
+                cell.innerHTML = rendered;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 """
-html_reporter.py — Genera un report HTML con link cliccabili al PDF annotato.
+html_reporter.py — Genera un report HTML con link cliccabili al viewer dinamico.
 
 Ogni citazione [¶N] nella risposta diventa un link che apre
-annotated_bboxes.pdf alla pagina corrispondente con le bounding box.
+viewer.html#¶N, mostrando la pagina con la bbox gialla della citazione.
 """
 
 import os
@@ -11,36 +11,43 @@ from pathlib import Path
 from typing import Any
 
 
-def _linkify_anchors(text: str, anchor_page: dict[str, int], pdf_path: str,
-                     single_pdf_path: str | None = None,
-                     anchor_single_page: dict[str, int] | None = None) -> str:
-    """Sostituisce [¶N] con link al PDF single-bbox (se disponibile) o a quello completo."""
+def _build_prefix_map(doc_dirs: list[str]) -> dict[str, str]:
+    """Costruisce mappa: prefix (es. '35') → percorso assoluto doc_dir."""
+    prefix_map: dict[str, str] = {}
+    for d in doc_dirs:
+        name = Path(d).name
+        prefix = name.replace("subset", "")
+        prefix_map[prefix] = str(Path(d).resolve())
+    return prefix_map
+
+
+def _linkify_anchors(text: str, prefix_map: dict[str, str], html_dir: str) -> str:
+    """Sostituisce [¶35-1] o [¶1] con link al viewer.html del subset corretto."""
 
     def replacer(m: re.Match) -> str:
-        anchor = f"¶{m.group(1)}"
-        # Preferisci il PDF con bbox singola se disponibile per questo anchor
-        if single_pdf_path and anchor_single_page and anchor in anchor_single_page:
-            spage = anchor_single_page[anchor]
-            return (
-                f'<a href="{single_pdf_path}#page={spage}" '
-                f'title="Apri PDF con solo questa citazione evidenziata" '
-                f'target="_blank" class="citation single-bbox">[{anchor}]</a>'
-            )
-        page = anchor_page.get(anchor)
-        if page is None:
-            return m.group(0)
+        prefix = m.group(1)
+        num = m.group(2)
+        if prefix and prefix in prefix_map:
+            viewer_abs = os.path.join(prefix_map[prefix], "viewer.html")
+            display_anchor = f"¶{prefix}-{num}"
+        else:
+            # Fallback: usa il primo doc_dir disponibile
+            first_dir = next(iter(prefix_map.values()), ".")
+            viewer_abs = os.path.join(first_dir, "viewer.html")
+            display_anchor = f"¶{num}"
+        viewer_rel = os.path.relpath(viewer_abs, html_dir)
         return (
-            f'<a href="{pdf_path}#page={page}" '
-            f'title="Apri PDF a pagina {page} (tutte le bbox)" '
-            f'target="_blank" class="citation">[{anchor}]</a>'
+            f'<a href="{viewer_rel}#{num}" '
+            f'title="Apri viewer con bbox gialla per {display_anchor}" '
+            f'target="_blank" class="citation">[{display_anchor}]</a>'
         )
 
-    return re.sub(r"\[¶(\d+)\]", replacer, text)
+    return re.sub(r"\[¶(?:(\d+)-)?(\d+)\]", replacer, text)
 
 
 def generate_html_report(
     results: list[dict[str, Any]],
-    doc_dir: str,
+    doc_dirs,
     output_path: str,
     model: str = "",
     title: str = "Report Q&A con Fonti",
@@ -51,21 +58,22 @@ def generate_html_report(
         results: lista di {
             question, expected_answer, expected_page, answer, sources
         }
-        sources è lista di {anchor, page, type, content}
-        doc_dir: cartella che contiene annotated_bboxes.pdf
+        sources è lista di {anchor, page, type, content, doc_dir}
+        doc_dirs: stringa o lista di cartelle che contengono viewer.html
         output_path: dove salvare l'HTML
         model: nome del modello usato
         title: titolo del report
     """
-    doc_dir_path = Path(doc_dir)
-    pdf_absolute = (doc_dir_path / "annotated_bboxes.pdf").resolve()
-    single_pdf_absolute = (doc_dir_path / "annotated_bboxes_single.pdf").resolve()
-    html_dir = Path(output_path).parent.resolve()
-
-    pdf_rel = os.path.relpath(str(pdf_absolute), str(html_dir))
-    single_pdf_rel = os.path.relpath(str(single_pdf_absolute), str(html_dir)) if single_pdf_absolute.exists() else None
+    if isinstance(doc_dirs, str):
+        doc_dirs = [doc_dirs]
+    prefix_map = _build_prefix_map(doc_dirs)
+    html_dir = str(Path(output_path).parent.resolve())
 
     rows_html: list[str] = []
+
+    tot_prompt = 0
+    tot_completion = 0
+    tot_total = 0
 
     for i, r in enumerate(results, 1):
         question = r.get("question", "")
@@ -73,18 +81,16 @@ def generate_html_report(
         expected_page = r.get("expected_page") or ""
         answer = r.get("answer", "")
         sources: list[dict] = r.get("sources", [])
+        tokens: dict = r.get("tokens", {})
 
-        # Mappa anchor → pagina per linkify
-        anchor_page: dict[str, int] = {
-            s["anchor"]: s["page"] for s in sources
-        }
-        anchor_single_page: dict[str, int] = {
-            s["anchor"]: s["single_pdf_page"] for s in sources if "single_pdf_page" in s
-        }
+        pt = tokens.get("prompt_tokens", 0) or 0
+        ct = tokens.get("completion_tokens", 0) or 0
+        tt = tokens.get("total_tokens", 0) or 0
+        tot_prompt += pt
+        tot_completion += ct
+        tot_total += tt
 
-        # Trasforma [¶N] in link cliccabili nella risposta
-        answer_linked = _linkify_anchors(answer, anchor_page, pdf_rel,
-                                         single_pdf_rel, anchor_single_page)
+        answer_linked = _linkify_anchors(answer, prefix_map, html_dir)
 
         # Colonna Fonti
         if sources:
@@ -92,22 +98,25 @@ def generate_html_report(
             for s in sources:
                 a = s["anchor"]
                 p = s["page"]
-                if single_pdf_rel and "single_pdf_page" in s:
-                    href = f"{single_pdf_rel}#page={s['single_pdf_page']}"
-                    title = "PDF con solo questa citazione evidenziata"
-                    cls = "source-link single-bbox"
-                else:
-                    href = f"{pdf_rel}#page={p}"
-                    title = "Apri PDF a pagina"
-                    cls = "source-link"
+                src_doc_dir = s.get("doc_dir", doc_dirs[0])
+                viewer_abs = os.path.join(str(Path(src_doc_dir).resolve()), "viewer.html")
+                viewer_rel = os.path.relpath(viewer_abs, html_dir)
+                num = a.lstrip("¶")
+                if "-" in num:
+                    num = num.split("-", 1)[1]
                 fonti_parts.append(
-                    f'<a href="{href}" target="_blank" '
-                    f'class="{cls}" title="{title}">{a}</a>'
+                    f'<a href="{viewer_rel}#{num}" target="_blank" '
+                    f'class="source-link" title="Apri viewer per {a}">{a}</a>'
                     f'<span class="source-page">(p. {p})</span>'
                 )
             fonti_html = " ".join(fonti_parts)
         else:
             fonti_html = '<span class="no-source">—</span>'
+
+        token_html = (
+            f'<span class="token-info" title="prompt: {pt} · completion: {ct}">'
+            f'{tt}</span>'
+        ) if tt else '<span class="no-source">—</span>'
 
         rows_html.append(f"""
             <tr>
@@ -117,6 +126,7 @@ def generate_html_report(
                 <td class="col-gt-page">{expected_page}</td>
                 <td class="col-answer">{answer_linked}</td>
                 <td class="col-sources">{fonti_html}</td>
+                <td class="col-tokens">{token_html}</td>
             </tr>
         """)
 
@@ -166,11 +176,12 @@ def generate_html_report(
             letter-spacing: 0.4px; text-align: left; position: sticky; top: 0; z-index: 1;
         }
         th.col-num      { width: 3%;  text-align: center; }
-        th.col-question { width: 17%; }
-        th.col-gt       { width: 20%; background: #166534; }
-        th.col-gt-page  { width: 5%;  text-align: center; background: #166534; }
-        th.col-answer   { width: 38%; background: #0f3b5c; }
-        th.col-sources  { width: 17%; }
+        th.col-question { width: 16%; }
+        th.col-gt       { width: 18%; background: #166534; }
+        th.col-gt-page  { width: 4%;  text-align: center; background: #166534; }
+        th.col-answer   { width: 34%; background: #0f3b5c; }
+        th.col-sources  { width: 16%; }
+        th.col-tokens   { width: 6%;  text-align: center; }
 
         td.col-num { text-align: center; color: var(--num-color); font-weight: 600; }
         td.col-gt { background: var(--gt-bg); font-size: 0.88em; }
@@ -180,7 +191,6 @@ def generate_html_report(
         tr:hover td { background: #fafbfc; }
         tr:hover td.col-gt { background: #e6f7ec; }
 
-        /* Stili citazioni */
         a.citation {
             color: var(--accent); text-decoration: none; font-weight: 600;
             font-size: 0.85em; padding: 1px 4px; border-radius: 3px;
@@ -188,11 +198,7 @@ def generate_html_report(
             transition: background 0.15s, color 0.15s;
         }
         a.citation:hover { background: #dbeafe; color: var(--accent-hover); }
-        a.citation.single-bbox {
-            border-left: 2px solid #16a34a; padding-left: 3px;
-        }
 
-        /* Stili fonti */
         a.source-link {
             display: inline-block; color: var(--accent); text-decoration: none;
             font-weight: 600; padding: 2px 6px; border-radius: 3px;
@@ -200,18 +206,25 @@ def generate_html_report(
             transition: background 0.15s;
         }
         a.source-link:hover { background: #dbeafe; }
-        a.source-link.single-bbox {
-            border-left: 2px solid #16a34a; padding-left: 4px;
-        }
         .source-page { font-size: 0.8em; color: var(--muted); margin-left: 2px; }
         .no-source { color: var(--muted); font-style: italic; }
 
-        /* Markdown rendering interno */
+        td.col-tokens { text-align: center; }
+        .token-info {
+            display: inline-block; font-weight: 600; font-size: 0.85em;
+            color: #6366f1; background: #eef2ff; padding: 2px 8px;
+            border-radius: 4px; cursor: default;
+        }
+        .token-total {
+            color: #d97706; background: #fffbeb; font-size: 0.95em;
+        }
+        .totals-row td {
+            background: #f8fafc; border-top: 2px solid #94a3b8;
+        }
+
         td.col-answer p { margin-bottom: 8px; }
         td.col-answer ul, td.col-answer ol { margin: 6px 0 6px 20px; }
         td.col-answer li { margin-bottom: 4px; }
-        td.col-answer table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.85em; }
-        td.col-answer th, td.col-answer td { border: 1px solid #d1d5db; padding: 6px 8px; }
         td.col-answer code { background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-size: 0.9em; }
         td.col-answer pre { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
         td.col-answer strong { font-weight: 600; color: #1e293b; }
@@ -224,7 +237,6 @@ def generate_html_report(
     """
 
     model_info = f"Modello: {model}" if model else ""
-    pdf_desc = "PDF con bbox singola per citazione" if single_pdf_rel else "PDF annotato con bounding box"
 
     full_html = f"""<!DOCTYPE html>
 <html lang="it">
@@ -241,7 +253,7 @@ def generate_html_report(
         <div class="meta">
             {model_info}
             {' · ' if model_info else ''}
-            {len(results)} domande · {pdf_desc}
+            {len(results)} domande · viewer con bbox gialla
         </div>
         <div class="table-wrapper">
             <table>
@@ -253,11 +265,29 @@ def generate_html_report(
                         <th class="col-gt-page">Pag.</th>
                         <th class="col-answer">Risposta Modello</th>
                         <th class="col-sources">Fonti</th>
+                        <th class="col-tokens">Token</th>
                     </tr>
                 </thead>
                 <tbody>
                     {"".join(rows_html)}
                 </tbody>
+                <tfoot>
+                    <tr class="totals-row">
+                        <td class="col-num"></td>
+                        <td class="col-question"></td>
+                        <td class="col-gt"></td>
+                        <td class="col-gt-page"></td>
+                        <td class="col-answer" style="text-align:right;font-weight:700;color:#1e293b;">
+                            TOTALE ({len(results)} domande)
+                        </td>
+                        <td class="col-sources"></td>
+                        <td class="col-tokens">
+                            <span class="token-info token-total" title="prompt: {tot_prompt} · completion: {tot_completion}">
+                                {tot_total}
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -267,15 +297,12 @@ def generate_html_report(
             const answerCells = document.querySelectorAll('td.col-answer');
             answerCells.forEach(cell => {{
                 let html = cell.innerHTML;
-                // Estrai le citation link gia' generate e sostituiscile con placeholder
                 const citations = [];
-                html = html.replace(/<a class="citation"[^>]*>.*?<\\/a>/g, match => {{
+                html = html.replace(/<a [^>]*class="citation[^"]*"[^>]*>.*?<\\/a>/g, match => {{
                     citations.push(match);
                     return '%%CITATION' + (citations.length - 1) + '%%';
                 }});
-                // Render markdown sul resto
                 let rendered = marked.parse(html);
-                // Rimetti le citation link al loro posto
                 citations.forEach((cit, idx) => {{
                     rendered = rendered.replace('%%CITATION' + idx + '%%', cit);
                 }});

@@ -473,46 +473,6 @@ def draw_bboxes_on_page(doc_result, page_no: int):
     return img
 
 
-def draw_single_bbox_on_page(doc_result, page_no: int, bbox: dict,
-                             page_w: float, page_h: float, label_str: str):
-    """Disegna SOLO la bbox specificata sulla pagina, senza altre annotazioni."""
-    from PIL import Image, ImageDraw, ImageFont
-    page = doc_result.document.pages.get(page_no)
-    if page is None or page.image is None or page.image.pil_image is None:
-        return None
-    img: Image.Image = page.image.pil_image.copy().convert("RGB")
-    draw = ImageDraw.Draw(img, "RGBA")
-    img_w, img_h = img.size
-    scale_x = img_w / page_w
-    scale_y = img_h / page_h
-
-    # bbox è in coordinate bottom-left (Docling raw) → converti a top-left
-    tl_top = page_h - bbox["t"]
-    tl_bot = page_h - bbox["b"]
-    x0, y0 = bbox["l"] * scale_x, tl_top * scale_y
-    x1, y1 = bbox["r"] * scale_x, tl_bot * scale_y
-
-    if x1 <= x0 or y1 <= y0:
-        return None
-
-    r, g, b = _get_label_color(label_str)
-    draw.rectangle([x0, y0, x1, y1], outline=(r, g, b, 240), width=3,
-                   fill=(r, g, b, 35))
-
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 14)
-    except Exception:
-        font = ImageFont.load_default()
-
-    label_short = label_str.replace("_", " ")
-    try:
-        tb = draw.textbbox((x0 + 2, y0 + 2), label_short, font=font)
-        draw.rectangle(tb, fill=(r, g, b, 220))
-        draw.text((x0 + 2, y0 + 2), label_short, fill=(255, 255, 255), font=font)
-    except Exception:
-        draw.text((x0 + 2, y0 + 2), label_short, fill=(r, g, b))
-
-    return img
 
 
 def build_bbox_pdf(doc_result, output_dir: Path, page_filter: set[int] | None) -> Path | None:
@@ -554,74 +514,246 @@ def build_bbox_pdf(doc_result, output_dir: Path, page_filter: set[int] | None) -
     return out_path
 
 
-def build_bbox_single_pdf(doc_result, citable_chunks: list[dict],
-                          output_dir: Path, page_filter: set[int] | None) -> Path | None:
-    """Genera un PDF dove ogni pagina mostra UNA SOLA bbox per anchor.
 
-    Per ogni chunk citabile (con bbox), produce una pagina che evidenzia
-    esclusivamente la bbox di quel paragrafo. L'ordine delle pagine segue
-    l'ordine degli anchor (¶0, ¶1, ..., ¶N).
 
-    Restituisce il percorso del PDF e popola 'single_pdf_page' su ogni chunk.
-    """
-    try:
-        from fpdf import FPDF
-    except ImportError:
-        print("   ⚠️  fpdf2 non trovato. PDF single-bbox saltato.")
-        return None
+# ── Salvataggio immagini pagina ────────────────────────────────────────────────
 
-    # Filtra solo chunk citabili con bbox valida e pagina nel filtro
-    eligible = [
-        c for c in citable_chunks
-        if c.get("anchor") and c.get("bbox")
-        and c.get("page_id") is not None
-        and (page_filter is None or c["page_id"] in page_filter)
-        and c.get("page_width") and c.get("page_height")
-    ]
-
-    if not eligible:
-        print("   ⚠️  Nessun chunk con bbox valida, PDF single-bbox saltato.")
-        return None
-
-    bbox_dir = output_dir / "_bbox_single_tmp"
-    bbox_dir.mkdir(exist_ok=True)
-    pdf = FPDF(unit="pt")
-    single_page = 0
-
-    for chunk in eligible:
-        anchor = chunk["anchor"]
-        page_no = chunk["page_id"]
-        bbox = chunk["bbox"]
-        page_w = chunk["page_width"]
-        page_h = chunk["page_height"]
-        typ = chunk["type"]
-
-        annotated = draw_single_bbox_on_page(doc_result, page_no, bbox, page_w, page_h, typ)
-        if annotated is None:
+def save_page_images(doc_result, output_dir: Path,
+                     page_filter: set[int] | None) -> Path:
+    """Salva le immagini di ogni pagina come PNG in pages/."""
+    pages_dir = output_dir / "pages"
+    pages_dir.mkdir(exist_ok=True)
+    doc = doc_result.document
+    saved = 0
+    for page_no in sorted(doc.pages.keys()):
+        if page_filter and page_no not in page_filter:
             continue
+        page = doc.pages[page_no]
+        if page.image is None or page.image.pil_image is None:
+            continue
+        fname = f"page_{page_no:04d}.png"
+        page.image.pil_image.save(str(pages_dir / fname), format="PNG")
+        saved += 1
+    print(f"   ✅ {saved} pagine salvate in pages/")
+    return pages_dir
 
-        single_page += 1
-        tmp_path = bbox_dir / f"single_bbox_{anchor.replace('¶', 'p')}.png"
-        annotated.save(str(tmp_path), format="PNG")
-        pdf.add_page(format=(page_w, page_h))
-        pdf.image(str(tmp_path), x=0, y=0, w=page_w, h=page_h)
-        chunk["single_pdf_page"] = single_page
 
-    if single_page == 0:
-        for f in bbox_dir.glob("*.png"):
-            f.unlink()
-        bbox_dir.rmdir()
-        return None
+# ── Generazione viewer.html ───────────────────────────────────────────────────
 
-    out_path = output_dir / "annotated_bboxes_single.pdf"
-    pdf.output(str(out_path))
+def generate_viewer_html(output_dir: Path, citations: dict) -> Path:
+    """Genera viewer.html autoconsistente con tutti i dati delle citazioni.
 
-    for f in bbox_dir.glob("*.png"):
-        f.unlink()
-    bbox_dir.rmdir()
+    Quando aperto con #¶N nel fragment URL, mostra la pagina corrispondente
+    con la bbox gialla sovrapposta tramite canvas.
+    """
+    # Estrai solo le citations (senza metadati wrapper)
+    cit_data = citations.get("citations", citations)
 
-    print(f"   ✅ PDF single-bbox: {single_page} pagine (una per anchor)")
-    return out_path
+    viewer_path = output_dir / "viewer.html"
+    viewer_path.write_text(f"""<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viewer Citazioni</title>
+<style>
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: #1a1a1a; color: #e0e0e0;
+        display: flex; flex-direction: column; align-items: center;
+        min-height: 100vh; padding: 20px;
+    }}
+    #toolbar {{
+        display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+        margin-bottom: 16px; justify-content: center;
+    }}
+    #toolbar input {{
+        padding: 8px 12px; border: 1px solid #444; border-radius: 6px;
+        background: #2a2a2a; color: #fff; font-size: 14px; width: 140px;
+    }}
+    #toolbar button {{
+        padding: 8px 16px; border: none; border-radius: 6px;
+        background: #2563eb; color: #fff; font-size: 14px; cursor: pointer;
+        font-weight: 600; transition: background 0.15s;
+    }}
+    #toolbar button:hover {{ background: #1d4ed8; }}
+    #nav-buttons {{ display: flex; gap: 6px; }}
+    #nav-buttons button {{
+        background: #374151; min-width: 36px;
+    }}
+    #nav-buttons button:hover {{ background: #4b5563; }}
+    #viewer {{
+        position: relative; display: inline-block;
+        background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+        border-radius: 4px; overflow: hidden; max-width: 100%;
+    }}
+    #page-image {{ display: block; max-width: 100%; height: auto; }}
+    #bbox-canvas {{
+        position: absolute; top: 0; left: 0;
+        pointer-events: none;
+    }}
+    #info-panel {{
+        margin-top: 16px; padding: 16px 20px; background: #2a2a2a;
+        border-radius: 8px; max-width: 700px; width: 100%;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }}
+    #info-panel .anchor {{ color: #fbbf24; font-weight: 700; font-size: 18px; }}
+    #info-panel .meta {{ color: #9ca3af; font-size: 13px; margin: 4px 0 10px; }}
+    #info-panel .content {{
+        line-height: 1.7; font-size: 14px; color: #d1d5db;
+        white-space: pre-wrap;
+    }}
+    .empty-state {{
+        text-align: center; color: #9ca3af; margin-top: 80px;
+    }}
+    .empty-state h2 {{ font-size: 24px; margin-bottom: 8px; color: #6b7280; }}
+</style>
+</head>
+<body>
+<div id="toolbar">
+    <span style="color:#9ca3af;font-size:14px;">Anchor:</span>
+    <input type="text" id="anchor-input" placeholder="es. ¶42" />
+    <button onclick="goToAnchor()">Vai</button>
+    <div id="nav-buttons">
+        <button onclick="prevAnchor()" title="Precedente">◀</button>
+        <button onclick="nextAnchor()" title="Successivo">▶</button>
+    </div>
+</div>
+<div id="viewer">
+    <img id="page-image" src="" alt="Pagina" style="display:none;" />
+    <canvas id="bbox-canvas"></canvas>
+</div>
+<div id="info-panel">
+    <div id="info-content" class="empty-state">
+        <h2>Nessuna citazione selezionata</h2>
+        <p>Usa l'input sopra per cercare un anchor (es. ¶42) o i pulsanti ◀ ▶ per navigare.</p>
+    </div>
+</div>
+<script>
+const CITATIONS = {json.dumps(cit_data, ensure_ascii=False)};
+const ANCHORS = Object.keys(CITATIONS).sort((a, b) => {{
+    return parseInt(a.replace('¶', '')) - parseInt(b.replace('¶', ''));
+}});
+
+let currentAnchor = null;
+
+function getAnchorFromHash() {{
+    const hash = window.location.hash.substring(1);
+    if (!hash) return null;
+    // Supporta sia "42" (formato link) che "¶42" (formato manuale)
+    const anchor = hash.startsWith('¶') ? hash : '¶' + hash;
+    if (CITATIONS[anchor]) return anchor;
+    return null;
+}}
+
+function showAnchor(anchor) {{
+    if (!anchor || !CITATIONS[anchor]) {{
+        document.getElementById('info-content').innerHTML =
+            '<div class="empty-state"><h2>Citazione non trovata</h2><p>Anchor: ' + (anchor || '') + '</p></div>';
+        document.getElementById('page-image').style.display = 'none';
+        document.getElementById('bbox-canvas').style.display = 'none';
+        return;
+    }}
+    currentAnchor = anchor;
+    document.getElementById('anchor-input').value = anchor;
+    window.location.hash = anchor.replace('¶', '');
+
+    const cit = CITATIONS[anchor];
+    const pageNo = cit.page_id;
+    const img = document.getElementById('page-image');
+    const canvas = document.getElementById('bbox-canvas');
+
+    img.src = 'pages/page_' + String(pageNo).padStart(4, '0') + '.png';
+    img.style.display = 'block';
+    img.onload = function() {{
+        const scaleX = img.naturalWidth / cit.page_width;
+        const scaleY = img.naturalHeight / cit.page_height;
+
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        canvas.style.display = 'block';
+        canvas.style.width = img.clientWidth + 'px';
+        canvas.style.height = img.clientHeight + 'px';
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (cit.bbox) {{
+            // bbox in coordinate bottom-left (Docling) → top-left (canvas)
+            const x0 = cit.bbox.l * scaleX;
+            const y0 = (cit.page_height - cit.bbox.t) * scaleY;
+            const x1 = cit.bbox.r * scaleX;
+            const y1 = (cit.page_height - cit.bbox.b) * scaleY;
+            const w = x1 - x0;
+            const h = y1 - y0;
+
+            if (w > 0 && h > 0) {{
+                // Fill giallo semi-trasparente
+                ctx.fillStyle = 'rgba(255, 230, 50, 0.25)';
+                ctx.fillRect(x0, y0, w, h);
+                // Outline giallo spesso
+                ctx.strokeStyle = 'rgba(255, 200, 0, 1)';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(x0, y0, w, h);
+            }}
+        }}
+    }};
+
+    document.getElementById('info-content').innerHTML =
+        '<div class="anchor">' + anchor + '</div>' +
+        '<div class="meta">Pagina ' + cit.page_id + ' · ' + cit.type.replace(/_/g, ' ') + '</div>' +
+        '<div class="content">' + escapeHtml(cit.content) + '</div>';
+}}
+
+function escapeHtml(text) {{
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}}
+
+function goToAnchor() {{
+    const val = document.getElementById('anchor-input').value.trim();
+    const anchor = val.startsWith('¶') ? val : '¶' + val;
+    if (CITATIONS[anchor]) showAnchor(anchor);
+    else alert('Anchor non trovato: ' + anchor);
+}}
+
+function nextAnchor() {{
+    if (!currentAnchor) {{ showAnchor(ANCHORS[0]); return; }}
+    const idx = ANCHORS.indexOf(currentAnchor);
+    if (idx >= 0 && idx < ANCHORS.length - 1) showAnchor(ANCHORS[idx + 1]);
+}}
+
+function prevAnchor() {{
+    if (!currentAnchor) {{ showAnchor(ANCHORS[0]); return; }}
+    const idx = ANCHORS.indexOf(currentAnchor);
+    if (idx > 0) showAnchor(ANCHORS[idx - 1]);
+}}
+
+// Inizializzazione dal fragment URL
+const hashAnchor = getAnchorFromHash();
+if (hashAnchor) showAnchor(hashAnchor);
+else {{
+    document.getElementById('page-image').style.display = 'none';
+    document.getElementById('bbox-canvas').style.display = 'none';
+}}
+
+// Ascolta cambiamenti del fragment (per navigazione da report)
+window.addEventListener('hashchange', function() {{
+    const anchor = getAnchorFromHash();
+    if (anchor) showAnchor(anchor);
+}});
+
+// Enter key sull'input
+document.getElementById('anchor-input').addEventListener('keydown', function(e) {{
+    if (e.key === 'Enter') goToAnchor();
+}});
+</script>
+</body>
+</html>
+""", encoding="utf-8")
+    return viewer_path
 
 
 # ─── Main ────────────────────────────────────────────────────────────────────
@@ -652,7 +784,7 @@ def main() -> None:
     extract_math   = not args.no_math
     generate_bbox  = not args.no_bbox_pdf
     force_ocr      = args.ocr
-    need_page_imgs = generate_bbox
+    need_page_imgs = True  # sempre: servono per pages/ e viewer.html
 
     print(f"📁 Output in        : {output_dir}")
     print(f"📑 Pagine           : {', '.join(str(p) for p in sorted(page_filter)) if page_filter else 'tutte'}")
@@ -705,62 +837,39 @@ def main() -> None:
     cit_path.write_text(json.dumps(citations, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"   ✅ {cit_path}  ({citations['total_citable']} entry)")
 
-    # ── JSON ibrido completo ──────────────────────────────────────────────────
-    print("\n🗂  Generazione JSON ibrido completo (document_citabile.json)...")
-    hybrid = build_hybrid_json(chunks, pdf_path, total_pages)
-    json_path = output_dir / "document_citabile.json"
-    json_path.write_text(json.dumps(hybrid, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"   ✅ {json_path}  ({hybrid['total_chunks']} chunk, {hybrid['citable_chunks']} citabili)")
+    # ── Salva immagini pagina per viewer ──────────────────────────────────────
+    print("\n🖼  Salvataggio immagini pagina...")
+    save_page_images(doc_result, output_dir, page_filter)
 
-    # ── JSON raw Docling ──────────────────────────────────────────────────────
-    print("\n🗂  Esportazione JSON raw Docling...")
-    try:
-        raw_dict = doc_result.document.export_to_dict()
-    except Exception:
-        raw_dict = {}
-    raw_json_path = output_dir / "document_raw.json"
-    raw_json_path.write_text(json.dumps(raw_dict, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"   ✅ {raw_json_path}")
+    # ── Viewer HTML dinamico ──────────────────────────────────────────────────
+    print("\n🌐 Generazione viewer HTML dinamico...")
+    viewer_path = generate_viewer_html(output_dir, citations)
+    print(f"   ✅ {viewer_path}")
 
     # ── PDF bounding box ──────────────────────────────────────────────────────
     bbox_pdf_path: Path | None = None
-    bbox_single_path: Path | None = None
     if generate_bbox:
         print("\n🔲 Generazione PDF con bounding box annotate...")
         bbox_pdf_path = build_bbox_pdf(doc_result, output_dir, page_filter)
         if bbox_pdf_path:
             print(f"   ✅ {bbox_pdf_path}")
 
-        print("\n🔲 Generazione PDF con bbox singola per citazione...")
-        bbox_single_path = build_bbox_single_pdf(doc_result, chunks, output_dir, page_filter)
-        if bbox_single_path:
-            print(f"   ✅ {bbox_single_path}")
-            for chunk in chunks:
-                anchor = chunk.get("anchor")
-                if anchor and "single_pdf_page" in chunk and anchor in citations.get("citations", {}):
-                    citations["citations"][anchor]["single_pdf_page"] = chunk["single_pdf_page"]
-            cit_path.write_text(json.dumps(citations, ensure_ascii=False, indent=2), encoding="utf-8")
-            print(f"   ✅ citations.json aggiornato con single_pdf_page")
-
     # ── Riepilogo ─────────────────────────────────────────────────────────────
     print("\n" + "=" * 60)
     print("✅ Conversione completata!")
     print(f"   📄 Markdown (con anchor)  : {md_path}")
     print(f"   🗂  Indice citazioni       : {cit_path}  ({citations['total_citable']} entry)")
-    print(f"   📋 JSON ibrido completo   : {json_path}  ({hybrid['total_chunks']} chunk)")
-    print(f"   🗂  JSON raw Docling       : {raw_json_path}")
+    print(f"   🌐 Viewer HTML dinamico   : {viewer_path}")
     if image_map:
         print(f"   🖼  Immagini              : {images_dir} ({len(image_map)} file)")
     if bbox_pdf_path:
         print(f"   🔲 PDF bbox annotato      : {bbox_pdf_path}")
-    if bbox_single_path:
-        print(f"   🔲 PDF bbox singola       : {bbox_single_path}")
     print("=" * 60)
     print()
     print("💡 Citazione agente:")
     print('   Markdown:  "…testo… [¶42]"')
     print('   Lookup:    citations["¶42"]  →  {page_id, type, content, paragraph_id}')
-    print('   Completo:  [fonte: ¶42, page=3, type=text, file="documento.pdf"]')
+    print('   Viewer:    viewer.html#¶42  →  pagina con bbox gialla')
 
 
 if __name__ == "__main__":

@@ -16,13 +16,14 @@ Utilizzo:
 import argparse
 import json
 import math
-import os
 import re
 import sys
 import textwrap
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from datapizza.clients.openai_like import OpenAILikeClient
 
 # ---------------------------------------------------------------------------
 # BM25 (implementazione minimale, nessuna dipendenza esterna)
@@ -121,101 +122,114 @@ SYSTEM_PROMPT_BM25 = textwrap.dedent("""\
 
 
 class QAAgent:
-    """Agente Q&A con citazione dei paragrafi tramite anchor Docling [¶N]."""
+    """Agente Q&A con citazione dei paragrafi tramite anchor Docling [¶N].
+
+    Supporta uno o più subset di documenti. Con più subset, gli anchor
+    vengono prefissati con il numero del subset (es. ¶35-1, ¶40-1, ¶58-1).
+    """
 
     def __init__(
         self,
-        doc_dir: str,
+        doc_dirs: list[str],
         model: str = "deepseek-v4-flash:cloud",
         api_base: str = "http://localhost:11434/v1",
         api_key: str = "ollama",
     ):
-        self.doc_dir = Path(doc_dir)
+        self.doc_dirs = [Path(d) for d in doc_dirs]
         self.model = model
         self.api_base = api_base
         self.api_key = api_key
 
-        self._md_path = self.doc_dir / "document.md"
-        self._citations_path = self.doc_dir / "citations.json"
-
         self._citations: dict[str, dict] = {}
         self._citable_chunks: list[dict] = []
         self._markdown: str = ""
-        self._requests: Any = None
+        self._client: OpenAILikeClient | None = None
+        self._anchor_to_doc_dir: dict[str, Path] = {}
+        # Primo doc_dir per retrocompatibilità
+        self.doc_dir = self.doc_dirs[0]
 
     # ── Inizializzazione ─────────────────────────────────────────────────
 
     def load(self) -> "QAAgent":
-        """Carica document.md e citations.json. Solleva eccezione se assenti."""
-        if not self._md_path.exists():
-            raise FileNotFoundError(f"Markdown non trovato: {self._md_path}")
-        if not self._citations_path.exists():
-            raise FileNotFoundError(f"Citations non trovato: {self._citations_path}")
+        """Carica document.md e citations.json da tutti i subset."""
+        md_parts: list[str] = []
+        multi = len(self.doc_dirs) > 1
 
-        self._markdown = self._md_path.read_text(encoding="utf-8")
+        for doc_dir in self.doc_dirs:
+            md_path = doc_dir / "document.md"
+            citations_path = doc_dir / "citations.json"
 
-        raw = json.loads(self._citations_path.read_text(encoding="utf-8"))
-        self._citations = raw.get("citations", {})
+            if not md_path.exists():
+                raise FileNotFoundError(f"Markdown non trovato: {md_path}")
+            if not citations_path.exists():
+                raise FileNotFoundError(f"Citations non trovato: {citations_path}")
+
+            md_text = md_path.read_text(encoding="utf-8")
+            raw = json.loads(citations_path.read_text(encoding="utf-8"))
+            subset_citations = raw.get("citations", {})
+
+            if multi:
+                prefix = re.sub(r"(?i)^subset[_-]?", "", doc_dir.name).replace(" v360", "")
+                # Rinomina anchor nel markdown: [¶N] → [¶{prefix}-N]
+                md_text = re.sub(r"\[¶(\d+)\]", rf"[¶{prefix}-\1]", md_text)
+                # Rinomina chiavi nelle citations
+                subset_citations = {
+                    f"¶{prefix}-{k.lstrip('¶')}": v
+                    for k, v in subset_citations.items()
+                }
+
+            md_parts.append(md_text)
+            self._citations.update(subset_citations)
+
+            # Mappa anchor → doc_dir per i link al viewer
+            for anchor in subset_citations:
+                self._anchor_to_doc_dir[anchor] = doc_dir
+
+        self._markdown = "\n\n".join(md_parts)
 
         # Lista ordinata di chunk citabili (per BM25)
         self._citable_chunks = [
             {"anchor": anchor, **meta}
             for anchor, meta in self._citations.items()
         ]
-        self._citable_chunks.sort(key=lambda c: int(c["anchor"].lstrip("¶")))
+        self._citable_chunks.sort(key=lambda c: c["anchor"])
 
         self._init_client()
         return self
 
     def _init_client(self):
-        try:
-            import requests
-            self._requests = requests
-        except ImportError:
-            print("⚠️  requests non installato. pip install requests")
-            sys.exit(1)
-
-    # ── Stima token ─────────────────────────────────────────────────────
-
-    def _estimate_tokens(self, text: str) -> int:
-        """Stima conservativa: 1 token ≈ 3 caratteri (peggiore di 4 per safety)."""
-        return len(text) // 3
+        self._client = OpenAILikeClient(
+            api_key=self.api_key,
+            model=self.model,
+            base_url=self.api_base,
+        )
 
     # ── Chiamata LLM ────────────────────────────────────────────────────
 
-    def _call_llm(self, system_prompt: str, user_prompt: str) -> str:
-        try:
-            resp = self._requests.post(
-                f"{self.api_base.rstrip('/')}/chat/completions",
-                json={
-                    "model": self.model,
-                    "messages": [
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt},
-                    ],
-                    "temperature": 0.1,
-                },
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                },
-                timeout=120,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            return data["choices"][0]["message"]["content"] or ""
-        except Exception as e:
-            return f"[ERRORE chiamata LLM: {e}]"
+    def _call_llm(self, system_prompt: str, user_prompt: str) -> tuple[str, dict[str, int]]:
+        """Restituisce (testo_risposta, {prompt_tokens, completion_tokens, total_tokens})."""
+        response = self._client.invoke(
+            input=user_prompt,
+            system_prompt=system_prompt,
+            temperature=0.1,
+        )
+        text = response.text or ""
+        usage = {
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
+            "total_tokens": response.usage.prompt_tokens + response.usage.completion_tokens,
+        }
+        return text, usage
 
     # ── Lookup fonti ────────────────────────────────────────────────────
 
     def _extract_anchors(self, text: str) -> list[str]:
-        """Estrae tutti gli anchor ¶N unici dal testo, ordinati."""
-        found = re.findall(r"¶(\d+)", text)
+        """Estrae tutti gli anchor ¶N o ¶{prefix}-N unici dal testo, ordinati."""
+        found = re.findall(r"¶(?:(\d+)-)?(\d+)", text)
         seen: set[str] = set()
         unique: list[str] = []
-        for n in found:
-            anchor = f"¶{n}"
+        for prefix, num in found:
+            anchor = f"¶{prefix}-{num}" if prefix else f"¶{num}"
             if anchor not in seen and anchor in self._citations:
                 seen.add(anchor)
                 unique.append(anchor)
@@ -225,14 +239,14 @@ class QAAgent:
         result = []
         for a in anchors:
             c = self._citations[a]
+            doc_dir = self._anchor_to_doc_dir.get(a, self.doc_dir)
             source = {
                 "anchor": a,
                 "page": c["page_id"],
                 "type": c["type"],
                 "content": c["content"],
+                "doc_dir": str(doc_dir),
             }
-            if c.get("single_pdf_page"):
-                source["single_pdf_page"] = c["single_pdf_page"]
             if c.get("bbox"):
                 source["bbox"] = c["bbox"]
             result.append(source)
@@ -246,10 +260,10 @@ class QAAgent:
             f"DOMANDA: {question}"
         )
 
-        answer = self._call_llm(SYSTEM_PROMPT_FULL, user_prompt)
+        answer, tokens = self._call_llm(SYSTEM_PROMPT_FULL, user_prompt)
         anchors = self._extract_anchors(answer)
         sources = self._lookup_sources(anchors)
-        return {"answer": answer, "sources": sources, "mode": "full"}
+        return {"answer": answer, "sources": sources, "mode": "full", "tokens": tokens}
 
     # ── Modalità BM25 ───────────────────────────────────────────────────
 
@@ -263,6 +277,7 @@ class QAAgent:
                 "answer": "Nessun paragrafo rilevante trovato nel documento.",
                 "sources": [],
                 "mode": "bm25",
+                "tokens": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
             }
 
         # Costruisce il prompt con i paragrafi recuperati
@@ -284,10 +299,10 @@ class QAAgent:
             f"DOMANDA: {question}"
         )
 
-        answer = self._call_llm(SYSTEM_PROMPT_BM25, user_prompt)
+        answer, tokens = self._call_llm(SYSTEM_PROMPT_BM25, user_prompt)
         anchors = self._extract_anchors(answer)
         sources = self._lookup_sources(anchors)
-        return {"answer": answer, "sources": sources, "mode": f"bm25 (top {len(results)})"}
+        return {"answer": answer, "sources": sources, "mode": f"bm25 (top {len(results)})", "tokens": tokens}
 
     # ── API pubblica ────────────────────────────────────────────────────
 
@@ -406,6 +421,7 @@ def process_excel_to_html(
             "expected_page": q["expected_page"],
             "answer": result["answer"].rstrip(),
             "sources": result["sources"],
+            "tokens": result.get("tokens", {}),
         })
 
         preview = result["answer"][:150].replace("\n", " ")
@@ -417,9 +433,9 @@ def process_excel_to_html(
             print(f"   → Fonti: {fonti}")
         print()
 
-    doc_dir = str(agent.doc_dir)
-    title = f"Q&A: {agent.doc_dir.name}"
-    html_path = generate_html_report(results, doc_dir, output_path, model=agent.model, title=title)
+    doc_dirs_list = [str(d) for d in agent.doc_dirs]
+    title = f"Q&A: {', '.join(d.name for d in agent.doc_dirs)}"
+    html_path = generate_html_report(results, doc_dirs_list, output_path, model=agent.model, title=title)
     print(f"✅ Report HTML salvato in: {html_path}")
     return html_path
 
@@ -435,13 +451,14 @@ def parse_args() -> argparse.Namespace:
         epilog=textwrap.dedent("""\
             esempi:
               python qa_agent.py --doc-dir processed_documents/subset40
+              python qa_agent.py -d processed_documents/subset35 processed_documents/subset40 processed_documents/subset58
               python qa_agent.py -d processed_documents/subset40 -m bm25
               python qa_agent.py -d processed_documents/subset40 -q "quanto deve fermarsi il treno?"
-              python qa_agent.py -d processed_documents/subset40 --excel "domande subset 40.xlsx"
+              python qa_agent.py -d processed_documents/subset35 processed_documents/subset40 processed_documents/subset58 --excel "domande_excel/Domande Subset-35-40-58.xlsx"
         """),
     )
-    p.add_argument("-d", "--doc-dir", required=True,
-                   help="Cartella con document.md e citations.json")
+    p.add_argument("-d", "--doc-dir", required=True, nargs="+",
+                   help="Cartella/e con document.md e citations.json (una o più)")
     p.add_argument("-m", "--mode", choices=["full", "bm25"], default="full",
                    help="Modalità: full (default) o bm25 per documenti grandi")
     p.add_argument("-q", "--question", default=None,
@@ -463,12 +480,35 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
+def _expand_doc_dirs(doc_dirs: list[str]) -> list[str]:
+    """Se una directory è la root 'processed_documents', la espande in tutte le sottocartelle."""
+    expanded: list[str] = []
+    for d in doc_dirs:
+        p = Path(d).resolve()
+        # Se la cartella contiene già document.md, la usiamo così com'è
+        if (p / "document.md").exists():
+            expanded.append(d)
+        else:
+            # Altrimenti cerchiamo le sottocartelle che contengono document.md
+            subs = sorted(
+                str(sub) for sub in p.iterdir()
+                if sub.is_dir() and (sub / "document.md").exists()
+            )
+            if not subs:
+                raise FileNotFoundError(
+                    f"Né {d} né le sue sottocartelle contengono document.md"
+                )
+            expanded.extend(subs)
+    return expanded
+
+
 def main() -> None:
     args = parse_args()
+    args.doc_dir = _expand_doc_dirs(args.doc_dir)
 
     try:
         agent = QAAgent(
-            doc_dir=args.doc_dir,
+            doc_dirs=args.doc_dir,
             model=args.model,
             api_base=args.api_base,
             api_key=args.api_key,
@@ -490,10 +530,9 @@ def main() -> None:
         print(format_answer(result))
     else:
         # REPL interattivo
-        print(f"\n🤖 Q&A Agent — documento: {agent.doc_dir.name}")
+        print(f"\n🤖 Q&A Agent — subset: {', '.join(d.name for d in agent.doc_dirs)}")
         print(f"   Modello: {agent.model}  |  Modalità: {args.mode}")
-        est = agent._estimate_tokens(agent._markdown)
-        print(f"   Documento: {len(agent._markdown):,} char (~{est:,} token)")
+        print(f"   Documento combinato: {len(agent._markdown):,} char")
         print(f"   Paragrafi citabili: {len(agent._citations)}")
         print("\n   Scrivi 'fine' o 'quit' per uscire, 'mode full|bm25' per cambiare.\n")
 
